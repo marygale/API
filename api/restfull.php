@@ -37,7 +37,7 @@ class restfull extends API{
         }
     }
 
-    protected function test(){ return 'test';
+    public function test(){ return 'test';
         if($this->method('POST')){
             return 'this is a test';
         }
