@@ -37,7 +37,9 @@ class restfull extends API{
     }
 
     protected function test(){
-        return 'this is a test';
+        if($this->method('GET')){
+            return 'this is a test';
+        }
     }
     /*public function __construct($request, $origin) {
         parent::__construct ( $request );
