@@ -1,8 +1,596 @@
+AddDefaultCharset UTF-8
+
+## 404 Error Page
+## If is installed in a subfolder, change the below line to ErrorDocument 404 /name-of-subfolder/error_404.php
+ErrorDocument 404 /error_404.php
+
 ## Re-directing Begin
 Options +FollowSymlinks -MultiViews
 RewriteEngine on
 
+## removing the www for SEO and analytics purposes
+RewriteCond %{HTTP_HOST} ^www.mobile.co$ [NC]
+RewriteRule ^(.*)$ http://mobile.co/$1 [R=301,L]
+
+## mc in root
 RewriteBase /
+
+# Domains
+RewriteCond %{HTTPS} off
+RewriteRule ^domains(.*)$ http://domains.mobile.co$1 [R=301,L]
+RewriteCond %{HTTPS} on
+RewriteRule ^domains(.*)$ https://domains.mobile.co$1 [R=301,L]
 
 # Request URL for API RESTfull Services
 RewriteRule ^api/(.*)$ api/restfull.php?request=$1 [QSA,NC,L]
+
+# Landing before forcing slash at the end
+#RewriteRule ^l/t1?$ landing/landingtheme1.php [L]
+#RewriteRule ^l/t2?$ landing/landingtheme2.php [L]
+RewriteRule ^l/t1/?$ landingtheme1.php [L]
+RewriteRule ^l/t2/?$ landingtheme2.php [L]
+RewriteRule ^l/t3?$ landing/landingtheme3.php [L]
+RewriteRule ^l/t4?$ landing/landingtheme4.php [L]
+
+## Force forward slash at the end of URL
+RewriteCond %{REQUEST_URI} !(\.[a-zA-Z0-9]{1,5}|/)$
+## If installed in a subfolder, you will need to add that directory after {HTTP_HOST} on the next line.
+RewriteRule (.*)([^/])$ http://%{HTTP_HOST}/$1$2/ [R=301,L]
+
+## If installed in a subfolder you may need to add ## to the beginning of the next line
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /.*index\.php\ HTTP/
+
+## Comment out or remove these two lines if you have a sub-domain like: http://subdomain.mc.com or http://localhost
+## Keep if your site is like: http://www.mobile.co
+RewriteCond %{HTTP_HOST} !^www\.
+RewriteCond %{HTTP_HOST} !^localhost
+RewriteRule .* http://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+##### Re-directing End #####
+
+## The settings that you should configure are all above this line.
+## Continue below only if you are an advanced user.
+
+
+# Story and Category URLs
+RewriteRule ^(all)/([^/]+)/?$ story.php?title=$2 [L]
+RewriteRule ^(all)/?$ index.php [R=301,L]
+
+# /recent redirection
+RewriteRule ^upcoming/(.*)$ /new/$1 [R=301,NC,L]
+RewriteRule ^new/recent/?$ new [R=301,L]
+RewriteRule ^new/recent/category/([^/]+)/?$ new/category/$1 [R=301,L]
+RewriteRule ^new/recent/page/(\d+)/?$ new/page/$1 [R=301,L]
+RewriteRule ^new/recent/category/([^/]+)/page/(\d+)/?$ new/category/$1/page/$2 [R=301,L]
+RewriteRule ^recent/?$ ./ [R=301,L]
+RewriteRule ^recent/category/([^/]+)/?$ category/$1 [R=301,L]
+RewriteRule ^recent/page/(\d+)/?$ page/$1 [R=301,L]
+RewriteRule ^recent/category/([^/]+)/page/(\d+)/?$ category/$1/page/$2 [R=301,L]
+RewriteRule ^new/recent/([^/]+)/?$ new/category/$1 [R=301,L]
+RewriteRule ^new/recent/([^/]+)/page/(\d+)/?$ new/category/$1/page/$2 [R=301,L]
+RewriteRule ^recent/([^/]+)/?$ category/$1 [R=301,L]
+RewriteRule ^recent/([^/]+)/page/(\d+)/?$ category/$1/page/$2 [R=301,L]
+
+##API
+
+RewriteRule ^api/(.*)/?$ api.php?type=$1&page=$2 [QSA,NC,L]
+RewriteRule ^api/(.*)/?$ api.php?type=$1&page=$2&tag=$3 [L]
+
+## RSS
+RewriteRule ^new/([^/]+)/rss/?$ rss.php?status=new&category=$1 [L]
+RewriteRule ^new/rss/?$ rss.php?status=new [L]
+RewriteRule ^(\d+)/rss/?$ storyrss.php?id=$1 [L]
+RewriteRule ^([^/]+)/rss/?$ rss.php?category=$1 [L]
+RewriteRule ^rss/?$ rss.php [L]
+RewriteRule ^search/([^/]+)/rss/?$ rss.php?search=$1 [L]
+RewriteRule ^group/([^/]+)/rss/?$ rss.php?status=published&group=$1 [L]
+RewriteRule ^group/([^/]+)/new/rss/?$ rss.php?status=new&group=$1 [L]
+RewriteRule ^group/([^/]+)/shared/rss/?$ rss.php?status=shared&group=$1 [L]
+RewriteRule ^([^/]+)/([^/]+)/rss/?$ storyrss.php?title=$2 [L]
+RewriteRule ^rss/([a-zA-Z0-9-]+)/?$ rss.php?status=$1 [L]
+RewriteRule ^rss/category/([^/]+)/?$ rss.php?category=$1 [L]
+RewriteRule ^rss/category/new/([^/]+)/?$ rss.php?status=new&category=$1 [L]
+RewriteRule ^rss/category/published/([^/]+)/?$ rss.php?status=published&category=$1 [L]
+RewriteRule ^rss/category/([^/]+)/new/?$ rss.php?status=new&category=$1 [L]
+RewriteRule ^rss/category/([^/]+)/published/?$ rss.php?status=published&category=$1 [L]
+RewriteRule ^rss/category/([^/]+)/group/([^/]+)/?$ rss.php?category=$1&group=$2 [L]
+RewriteRule ^rss/category/new/([^/]+)/([^/]+)/?$ rss.php?status=new&category=$1&group=$2 [L]
+RewriteRule ^rss/category/published/([^/]+)/([^/]+)/?$ rss.php?status=published&category=$1&group=$2 [L]
+RewriteRule ^rss/search/([^/]+)/?$ rss.php?search=$1 [L]
+RewriteRule ^rssfeeds/?$ rssfeeds.php [L]
+
+##### URL Method 2 Begin #####
+RewriteRule ^trendings/?$ homepagev3/trending/trending.php [L]
+RewriteRule ^trendings/page/([0-9]+)/?$ homepagev3/trending/trending.php?page=$1 [L]
+RewriteRule ^trendings/?$ homepagev3/trending/trending.php?tag=$1&page=$2 [L]
+
+#####All notifications urls######
+RewriteRule ^notifications/?$ homepagev3/allnotifications/allnotifications.php [L]
+RewriteRule ^notifications/page/([0-9]+)/?$ homepagev3/allnotifications/allnotifications.php?page=$1 [L]
+
+RewriteRule ^advanced-search/?$ advancedsearch.php [L]
+RewriteRule ^category/([^/]+)/?$ index.php?category=$1 [L]
+RewriteRule ^category/([^/]+)/([^/]+)/?$ story.php?title=$2 [L]
+RewriteRule ^login/?$ login.php [L]
+RewriteRule ^login/([a-zA-Z0-9-]+)/?$ login.php?return=$1 [L]
+RewriteRule ^login/([a-zA-Z0-9-]+)/([a-zA-Z0-9-]+)/?$ login.php?return=$1/$2 [L]
+RewriteRule ^logout/?$ login.php?op=logout&return=index.php [L]
+RewriteRule ^logout/([a-zA-Z0-9-]+)/([a-zA-Z0-9-]+)/?$ login.php?op=logout&return=$1/$2 [L]
+RewriteRule ^out/([\d]+)/?$ out.php?id=$1 [L]
+RewriteRule ^out/(https?:.+)$ out.php?url=$1 [L]
+RewriteRule ^out/([^/]+)/?$ out.php?title=$1 [L]
+RewriteRule ^register/?$ register.php [L]
+RewriteRule ^register/([^/]+)/?$ register.php [L]
+
+# Signup
+#RewriteRule ^signup/verify/?$ signup/verify.php [L]
+RewriteRule ^validation/?$ validation.php [L]
+
+# some static pages?
+RewriteRule ^aboutus/?$ aboutus.php [L]
+RewriteRule ^advisoryboard/?$ advisoryboard.php [L]
+RewriteRule ^board-of-directors/?$ board-of-directors.php [L]
+RewriteRule ^executive-leadership/?$ executive-leadership.php [L]
+RewriteRule ^legal-representation/?$ legal-representation.php [L]
+RewriteRule ^investor-relations/?$ investor-relations.php [L]
+RewriteRule ^investor-relations/([a-zA-Z0-9-]+)/?$ investor-relations.php?page_name=$1 [L]
+RewriteRule ^terms/?$ terms.php [L]
+RewriteRule ^privacy/?$ privacy.php [L]
+
+RewriteRule ^search/([^/]+)/type/([a-z]+)/page/(\d+)/?$ search.php?search=$1&type=$2&page=$3 [L]
+RewriteRule ^search/([^/]+)/page/(\d+)/?$ search.php?search=$1&page=$2 [L]
+RewriteRule ^search/(.+)/type/([a-z]+)/?$ search.php?search=$1&type=$2 [L]
+RewriteRule ^search/(.+)/?$ search.php?search=$1 [L]
+RewriteRule ^searchurl/(.+)/?$ search.php?url=$1 [L]
+RewriteRule ^settemplate/?$ settemplate.php [L]
+RewriteRule ^story/([0-9]+)/?$ story.php?id=$1 [L]
+RewriteRule ^story/([^/]+)/?$ story.php?title=$1 [L]
+RewriteRule ^story/([0-9]+)/editcomment/([0-9]+)/?$ edit.php?id=$1&commentid=$2 [L]
+RewriteRule ^story/([0-9]+)/edit/?$ editlink.php?id=$1 [L]
+RewriteRule ^submit/?$ submit.php [L]
+RewriteRule ^tag/([^/]+)/([^/]+)/?$ search.php?search=$1&tag=true&from=$2 [QSA,NC,L]
+RewriteRule ^tag/([^/]+)/?$ search.php?search=$1&tag=true [QSA,NC,L]
+RewriteRule ^tag/([^/]+)/page/(.+)/?$ search.php?search=$1&tag=true&page=$2 [QSA,NC,L]
+RewriteRule ^tagcloud/?$ cloud.php [L]
+RewriteRule ^tagcloud/range/([0-9]+)/?$ cloud.php?range=$1 [L]
+RewriteRule ^topusers/?$ topusers.php [L]
+RewriteRule ^trackback/([0-9]+)/?$ trackback.php?id=$1  [L]
+RewriteRule ^work/?$ work.php [L]
+RewriteRule ^work/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/?$ work.php?part=$1 [L]
+RewriteRule ^work/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/category/([^/]+)/?$ work.php?part=$1&category=$2 [L]
+RewriteRule ^work/([^/]+)/?$ work.php?category=$1 [L]
+RewriteRule ^work/page/([0-9]+)/?$ work.php?page=$1 [L]
+RewriteRule ^work/search/([^/]+)/?$ work.php?search=$1 [L]
+RewriteRule ^work/search/([^/]+)/page/([0-9]+)/?$ work.php?search=$1&page=$2 [L]
+RewriteRule ^work/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/page/(\d+)/?$ work.php?part=$1&page=$2 [L]
+RewriteRule ^work/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/category/([^/]+)/page/(\d+)/?$ work.php?part=$1&category=$2&page=$3 [L]
+
+# Work online / Resume
+RewriteRule ^resume/([a-zA-Z0-9-\_]+)/?$ /workonline/workonline.php?username=$1 [L]
+RewriteRule ^workonline/?$ /workonline/workonline.php [L]
+
+RewriteRule ^new/projects/?$ /projects/ [L]
+RewriteRule ^new/jobs/all/?$ work.php [L]
+RewriteRule ^new/?$ new.php [L]
+RewriteRule ^new/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/?$ new.php?part=$1 [L]
+RewriteRule ^new/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/category/([^/]+)/?$ new.php?part=$1&category=$2 [L]
+RewriteRule ^new/([^/]+)/?$ new.php?category=$1 [L]
+RewriteRule ^new/page/([0-9]+)/?$ new.php?page=$1 [L]
+RewriteRule ^new/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/page/(\d+)/?$ new.php?part=$1&page=$2 [L]
+RewriteRule ^new/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/category/([^/]+)/page/(\d+)/?$ new.php?part=$1&category=$2&page=$3 [L]
+RewriteRule ^user/search/([^/]+)/?$ user.php?view=search&keyword=$1 [L]
+RewriteRule ^user/([^/]+)/link/([0-9+]+)/?$ user_add_remove_links.php?action=$1&link=$2 [L]
+
+# Jobs
+RewriteCond %{REQUEST_URI} ^/jobs/(.*)$ [NC]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^(.*)$ $1 [L]
+
+RewriteRule ^jobs/jobs/all/?$ new.php?redirect=/jobs/all [L]
+RewriteRule ^jobs/edit/([^/]+)/?$ /jobs/edit.php?slug=$1 [L]
+RewriteRule ^jobs/view/(.*)?$   jobs/new/job.php [L]
+#RewriteRule ^jobs/view/([0-9-]+)/?$ /jobs/job.php?id=$1 [L]
+#RewriteRule ^jobs/view/([a-zA-Z0-9-]+)/?$ /jobs/job.php?slug=$1 [L]
+#RewriteRule ^jobs/view/applicants/?$ /jobs/applicants.php?slug=$1&id=$2 [QSA,NC,L]
+#RewriteRule ^jobs/view/invited/?$ /jobs/applicants.php?slug=$1&invited=1&id=$2 [QSA,NC,L]
+#RewriteRule ^jobs/view/([a-zA-Z0-9-]+)/?$ /job.php?id=$1 [QSA,NC,L]
+#RewriteRule ^jobs/edit/([^/]+)/?$ /jobs/edit.php?slug=$1 [L]
+#RewriteRule ^jobs/view/([a-zA-Z0-9-]+)/([0-9-]+)/?$ /job.php?title=$1&is_invited=$2 [L]
+#RewriteRule ^jobs/view/([a-zA-Z0-9-]+)/?$ /jobs/job.php?slug=$1 [L]
+#RewriteRule ^jobs/view/applicants/([a-zA-Z0-9-]+)/?$ /jobs/applicants.php?slug=$1 [L]
+#RewriteRule ^jobs/view/applicants/([a-zA-Z0-9-]+)/page/([0-9]+)/?$ /jobs/applicants.php?slug=$1&page=$2 [L]
+#RewriteRule ^jobs/view/invited/([a-zA-Z0-9-]+)/page/([0-9]+)/?$ /jobs/applicants.php?slug=$1&invited=1&page=$2 [L]
+#RewriteRule ^jobs/view/applicants/sortbid/([a-zA-Z0-9-]+)/([a-zA-Z0-9-]+)/?$ /jobs/applicants.php?slug=$2&sort=$1&id=$3 [QSA,NC,L]
+#RewriteRule ^jobs/view/invited/sortbid/([a-zA-Z0-9-]+)/([a-zA-Z0-9-]+)/?$ /jobs/applicants.php?slug=$2&sort=$1&invited=1&id=$3 [QSA,NC,L]
+#RewriteRule ^jobs/view/applicants/sortbid/([a-zA-Z0-9-]+)/([a-zA-Z0-9-]+)/page/([0-9-]+)/?$ /jobs/applicants.php?slug=$2&sort=$1&page=$3&id=$4 [QSA,NC,L]
+#RewriteRule ^jobs/view/invited/sortbid/([a-zA-Z0-9-]+)/([a-zA-Z0-9-]+)/page/([0-9-]+)/?$ /jobs/applicants.php?slug=$2&sort=$1&page=$3&invited=1 [L]
+
+
+# /jobs/all redirect to /story/  ## Why?
+# RewriteRule ^jobs/all/([^/]+)/?$ story/$1 [L]
+
+#RewriteRule ^jobs/hire/([0-9-]+)/?$ /jobs/hire.php?applicant_id=$1 [L]
+#RewriteRule ^jobs/hire/([0-9-]+)/?$ /jobs/hire.php?id=$1 [L]
+
+RewriteRule ^myjobs/page/([0-9]+)/?$ /myjobs/?page=$1 [L]
+RewriteRule ^myjobs/([a-zA-Z0-9-]+)/?$ /myjobs/?tabs=$1 [L]
+RewriteRule ^myjobs/([a-zA-Z0-9-]+)/page/([0-9]+)/?$ /myjobs/?tabs=$1&page=$2 [L]
+
+RewriteRule ^jobs/([^/]+)/([a-zA-Z]+)/?$ new.php?category=$1&job_status=$2&jobs=1 [L]
+RewriteRule ^jobs/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/?$ new.php?part=$1&jobs=1 [L]
+RewriteRule ^jobs/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/category/([^/]+)/?$ new.php?part=$1&category=$2&jobs=1 [L]
+RewriteRule ^jobs/([^/]+)/?$ new.php?category=$1&jobs=1 [L]
+RewriteRule ^jobs/page/([0-9]+)/?$ new.php?page=$1&jobs=1&v=$2 [L,QSA]
+RewriteRule ^jobs/page/([0-9]+)/?$ new.php?page=$1&jobs=1 [L]
+RewriteRule ^jobs/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/page/(\d+)/?$ new.php?part=$1&page=$2&jobs=1 [L]
+RewriteRule ^jobs/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/category/([^/]+)/page/(\d+)/?$ new.php?part=$1&category=$2&page=$3&jobs=1 [L]
+
+#Projects 02202015
+RewriteRule ^projects/(.*)/?$ new_pms/index.php [L]
+#RewriteRule ^projects/open/?$ /projects/?tabs=open [L]
+#RewriteRule ^projects/close/?$ /projects/?tabs=close [L]
+#RewriteRule ^projects/create/?$ projects/create-project.php [L]
+#RewriteRule ^project/([0-9]+)/userlist/?$ /projects/userlist.php?projectid=$1 [L]
+#RewriteRule ^project/([0-9]+)/userlist/page/([0-9]+)/?$ /projects/userlist.php?projectid=$1&page=$2 [L]
+
+# Who viewed profiles
+RewriteRule ^profileviews/?$ /profileviews/profileViews.php [L]
+
+# Invite freelancer
+RewriteRule ^invitefreelancer/([0-9]+)/?$ /invitefreelancer/?id=$1 [L]
+RewriteRule ^invitefreelancer/([0-9]+)/rate/([^/]+)/?$ /invitefreelancer/?id=$1&rate=$2 [L]
+RewriteRule ^invitefreelancer/([0-9]+)/page/([0-9]+)/?$ invitefreelancer/?id=$1&page=$2 [L]
+RewriteRule ^invitefreelancer/([0-9]+)/rate/([^/]+)/page/([0-9]+)/?$ invitefreelancer/?id=$1&rate=$2&page=$3 [L]
+RewriteRule ^invitefreelancer/([0-9]+)/([^/]+)/?$ invitefreelancer/?id=$1&keyword=$2 [L]
+RewriteRule ^invitefreelancer/([0-9]+)/([^/]+)/page/([0-9]+)/?$ invitefreelancer/?id=$1&keyword=$2&page=$3 [L]
+RewriteRule ^invitefreelancer/([0-9]+)/keyword/([^/]+)/page/([0-9]+)/?$ invitefreelancer/?id=$1&keyword=$2&page=$3 [L]
+RewriteRule ^invitefreelancer/([0-9]+)/keyword/([^/]+)/rate/([^/]+)/page/([0-9]+)/?$ invitefreelancer/?id=$1&keyword=$2&rate=$3&page=$4 [L]
+RewriteRule ^invitefreelancer/([0-9]+)/([^/]+)/rate/([^/]+)/?$ invitefreelancer/?id=$1&keyword=$2&rate=$3 [L]
+
+# Projects View
+RewriteRule ^projects/view/([0-9]+)/?$ projects/view.php?id=$1 [L]
+
+#Projects Edit
+RewriteRule ^projects/edit/([0-9]+)/?$ projects/edit.php?id=$1 [L]
+RewriteRule ^projects/edit/([0-9]+)/jobs/?$ projects/projectRelatedJobs.php?id=$1 [L]
+
+## Project Changes Logs View
+RewriteRule ^projects/view/([0-9]+)/activities/?$ projects/changesLogs.php?project_id=$1 [L]
+RewriteRule ^projects/view/([0-9]+)/activities/page/([0-9]+)/?$ projects/changesLogs.php?project_id=$1&page=$2 [L]
+
+
+## Project Attachments view
+RewriteRule ^projects/view/([0-9]+)/attachments/?$ projects/projectAttachments.php?project_id=$1 [L]
+RewriteRule ^projects/view/([0-9]+)/attachments/page/([0-9]+)/?$ projects/projectAttachments.php?project_id=$1&page=$2 [L]
+
+## Project Users View
+RewriteRule ^projects/view/([0-9]+)/users/?$ /projects/add-users.php?project_id=$1 [L]
+
+## Project Task View
+RewriteRule ^projects/view/([0-9]+)/tasks/([A-Z0-9-]+)/?$ /tasks/view.php?project_id=$1&task_id=$2 [L]
+RewriteRule ^projects/view/([0-9]+)/tasks/([A-Z0-9-]+)/page/([0-9]+)/?$ /tasks/view.php?project_id=$1&task_id=$2&page=$3 [L]
+RewriteRule ^projects/view/([0-9]+)/tasks/?$ /tasks/tasks.php?project_id=$1 [L]
+RewriteRule ^projects/view/([0-9]+)/tasks(?:/[0-9]+)?/page/([0-9]+)/?$ /tasks/tasks.php?project_id=$1&page=$2 [L]
+
+## Project Add a Jobs
+RewriteRule ^projects/view/([0-9]+)/jobs/?$ /projects/addjobs.php?project_id=$1 [L]
+RewriteRule ^projects/view/([0-9]+)/jobs/page/([0-9]+)/?$ /projects/addjobs.php?project_id=$1&page=$2 [L]
+
+## Tasks
+## RewriteRule ^tasks/view/?$ tasks/view.php [L]
+
+RewriteRule ^contacts/?$ contacts.php [L]
+RewriteRule ^contacts/([a-zA-Z0-9-]+)/?$ contacts.php?tabs=$1 [L]
+RewriteRule ^postajob/?$ /jobs/post.php [L]
+RewriteRule ^newproject/?$ /jobs/newproject.php [L]
+
+
+# Review List -- for screenshot review
+RewriteRule ^qualifyjobs/review/list/?$ /review/list.php [L]
+RewriteRule ^qualifyjobs/review/list/([0-9-]+)/?$ /review/list.php?id=$1 [L]
+RewriteRule ^qualifyjobs/checkreview/([0-9-]+)/?$ /review/checkreview.php?contract_id=$1 [L]
+
+#RewriteRule ^financial/?$ financial.php [L]
+RewriteRule ^financial/freelancer_payments/?$ /financial/payments.php [L]
+RewriteRule ^financial/freelancer_payments/page/([0-9]+)/?$ /financial/payments.php?page=$1 [L]
+RewriteRule ^financial/freelancer_payments/([a-zA-Z0-9-]+)/?$ /financial/payments.php?tabs=$1 [L]
+RewriteRule ^financial/freelancer_payments/([a-zA-Z0-9-]+)/page/([0-9]+)/?$ /financial/payments.php?tabs=$1&page=$2 [L]
+RewriteRule ^financial/qa_payments/?$ /financial/paymentsqa.php [L]
+RewriteRule ^financial/qa_payments/page/([0-9]+)/?$ /financial/paymentsqa.php?page=$1 [L]
+RewriteRule ^financial/qa_payments/([a-zA-Z0-9-]+)/?$ /financial/paymentsqa.php?tabs=$1 [L]
+RewriteRule ^financial/qa_payments/([a-zA-Z0-9-]+)/page/([0-9]+)/?$ /financial/paymentsqa.php?tabs=$1&page=$2 [L]
+RewriteRule ^financial/transfer/?$ /financial/transfer.php [L]
+RewriteRule ^financial/status/?$ /financial/status.php [L]
+RewriteRule ^financial/alltransactionhistory/?$ /financial/transactionhistory.php [L]
+RewriteRule ^financial/alltransactionhistory/page/([0-9]+)/?$ /financial/transactionhistory.php?page=$1 [L]
+RewriteRule ^financial/billingchathistory/?$ /financial/billingchathistory.php [L]
+RewriteRule ^financial/billingchathistory/page/([0-9]+)/?$ /financial/billingchathistory.php?page=$1 [L]
+RewriteRule ^financial/invoices/?$ /financial/invoices.php [L]
+RewriteRule ^financial/invoices/page/([0-9]+)/?$ /financial/invoices.php?page=$1 [L]
+RewriteRule ^financial/action/paypal/checkout/?$ /financial/action/paypal/checkout.php [L]
+RewriteRule ^financial/action/paypal/cancel/?$ /financial/action/paypal/cancel.php [L]
+RewriteRule ^financial/action/transfer/send/?$ /financial/action/transfer/send.php [QSA,NC,L]
+RewriteRule ^financial/invoices/pdf/([0-9]+).pdf/?$ /financial/invoicespdf.php?id=$1 [L]
+
+# Profile
+
+# only change this to switch to the new/old users page.
+RewriteRule ^user/([^/]+)/?$ /profile/$1/ [L]
+
+#RewriteRule ^user/([^/]+)/profile/?$ user/$1/ [R=permanent]
+#RewriteRule ^user/([^/]+)/rss/?$ userrss.php?user=$1 [L]
+#RewriteRule ^user/([^/]+)/rss/([a-zA-Z0-9-]+)/?$ userrss.php?user=$1&status=$2 [L]
+RewriteRule ^user/([^/]+)/edit/?$ profile.php?login=$1 [L]
+#RewriteRule ^user/([^/]+)/background/?$ background.php?login=$1 [L]
+RewriteRule ^user/([^/]+)/([^/]+)/?$ user.php?view=$2&login=$1 [L]
+#RewriteRule ^user/?$ user.php [L]
+#RewriteRule ^user/([^/]+)/?$ user.php?login=$1 [L]
+#RewriteRule ^profile/?$ profile.php [L]
+
+# Home
+RewriteRule ^home/?$ home/home.php [L]
+RewriteRule ^home/([^/]+)/?$ home/home.php [L]
+RewriteRule ^home/page/([0-9]+)/?$ /home/home.php?&page=$1 [L]
+
+RewriteRule ^homepage/page/([0-9]+)/?$ /homepage/index.php?&page=$1 [L]
+RewriteRule ^homepagev1/?$ /homepagev1/index.php?v=1 [L]
+RewriteRule ^homepagev1/page/([0-9]+)/?$ /homepagev1/index.php?&page=$1 [L]
+
+RewriteRule ^homepagev3/?$ /homepagev3/index.php?v=3 [L]
+RewriteRule ^homepagev3/post/(.*)/?$ /homepagev3/post.php?v=3&post_id=$1&type=$2 [QSA,L]
+
+RewriteRule ^profile/?$ profile_main/profile_main.php [L]
+RewriteRule ^profile/([^/]+)/?$ profile_main/profile_main.php?username=$1 [L]
+RewriteRule ^profile/education/([^/]+)/?$ profile_main/education.php?username=$1 [L]
+RewriteRule ^profile/experience/([^/]+)/?$ profile_main/experience.php?username=$1 [L]
+RewriteRule ^profile/skills/([^/]+)/?$ profile_main/skills.php?username=$1 [L]
+RewriteRule ^profile/language/([^/]+)/?$ profile_main/language.php?username=$1 [L]
+RewriteRule ^profile/interest/([^/]+)/?$ profile_main/interest.php?username=$1 [L]
+RewriteRule ^profile/award/([^/]+)/?$ profile_main/award.php?username=$1 [L]
+RewriteRule ^profile/projects/([^/]+)/([^/]+)/?$ profile_main/projects.php?username=$1&projectid=$2 [L]
+RewriteRule ^profile/projects_list/([^/]+)/([^/]+)/?$ profile_main/projects-list.php?username=$1&projectid=$2 [L]
+
+
+## Admin
+RewriteRule ^admin/?$ admin/admin_index.php [L]
+RewriteRule ^admin_comments/page/([^/]+)/?$ admin/admin_comments.php?page=$1 [L]
+RewriteRule ^admin_links/page/([^/]+)/?$ admin/admin_links.php?page=$1 [L]
+RewriteRule ^admin_users/page/([^/]+)/?$ admin/admin_users.php?page=$1 [L]
+RewriteRule ^story/([0-9]+)/modify/([a-z]+)/?$ admin/linkadmin.php?id=$1&action=$2 [L]
+RewriteRule ^view/([^/]+)/?$ admin/admin_users.php?mode=view&user=$1 [L]
+
+# articles
+RewriteRule ^admin/article/list/?$ admin/articles/list.php [QSA,L]
+RewriteRule ^admin/article/post/?$ admin/articles/post.php [QSA,L]
+RewriteRule ^admin/article/([^/]+)/edit/?$ admin/articles/post.php?id=$1 [QSA,L]
+
+# Streams
+RewriteRule ^streams/item/([0-9]+)/?$ streams/stream-preview.php?stream_id=$1 [QSA,L]
+
+## QC
+RewriteRule ^qc/apply/?$ qc/apply.php [L]
+
+RewriteRule ^qualityjobs/?$ qualityjobs.php [L]
+RewriteRule ^qualityjobs/client/?$ qualityjobs.php?client=1 [L]
+RewriteRule ^qualityjobs/?$ qualify.php?id=$1 [L]
+RewriteRule ^qualify/list/([0-9-]+)/([0-9]{4}-[0-9]{2}-[0-9]{2})/?$ /quality/screenshot/list.php?contract_id=$1&start_date=$2 [L]
+
+## Contracts Need QCs
+RewriteRule ^admin/qc/contracts_need_qc/?$ admin/admin_contracts_need_qc.php [L]
+RewriteRule ^admin/qc/contracts_need_qc/page/([0-9]+)/?$ admin/admin_contracts_need_qc.php?page=$1 [L]
+
+## Contracts with QCs
+RewriteRule ^admin/qc/contracts_with_qc/?$ admin/admin_contracts_with_qc.php [L]
+RewriteRule ^admin/qc/contracts_with_qc/page/([0-9]+)/?$ admin/admin_contracts_with_qc.php?page=$1 [L]
+
+
+RewriteRule ^admin/qc/contract/([0-9]+)/assign/?$ admin/admin_assign_qc.php?id=$1 [L]
+RewriteRule ^admin/qc/contract/([0-9]+)/assign/page/([0-9]+)/?$ admin/admin_assign_qc.php?id=$1&page=$2 [L]
+
+RewriteRule ^admin/qc/agents/?$ admin/admin_agents.php [L]
+RewriteRule ^admin/qc/agents/page/([0-9]+)/?$ admin/admin_agents.php?page=$1 [L]
+
+
+## Groups
+RewriteRule ^join_group/action/(published|new|discard)/link/(\d+)/?$ join_group.php?action=$1&link=$2 [L]
+RewriteRule ^groups/?$ groups.php [L]
+RewriteRule ^groups/search/([^/]+)/?$ groups.php?view=search&keyword=$1 [L]
+RewriteRule ^groups/submit/?$ submit_groups.php [L]
+RewriteRule ^groups/(members|name|oldest|newest)/?$ groups.php?sortby=$1 [L]
+RewriteRule ^groups/([^/]+)/?$ group_story.php?title=$1 [L]
+RewriteRule ^groups/([^/]+)/page/([0-9]+)/?$ group_story.php?title=$1&page=$2 [L]
+RewriteRule ^groups/([^/]+)/?$ group_story.php?title=$1&view=published [L]
+RewriteRule ^groups/([^/]+)/(published|new|shared|members)/?$ group_story.php?title=$1&view=$2 [L]
+RewriteRule ^groups/([^/]+)/(published|new|shared|members)/page/([0-9]+)/?$ group_story.php?title=$1&view=$2&page=$3 [L]
+RewriteRule ^groups/([^/]+)/(published|new|shared|members)/category/([^/]+)/?$ group_story.php?title=$1&view=$2&category=$3 [L]
+RewriteRule ^groups/([^/]+)/(published|new|shared|members)/category/([^/]+)/page/([0-9]+)?$ group_story.php?title=$1&view=$2&category=$3&page=$4 [L]
+RewriteRule ^groups/delete/([0-9]+)/?$ deletegroup.php?id=$1 [L]
+RewriteRule ^groups/edit/([0-9]+)/?$ editgroup.php?id=$1 [L]
+RewriteRule ^groups/id/([0-9]+)/?$ group_story.php?id=$1 [L]
+RewriteRule ^groups/join/([0-9]+)/? join_group.php?id=$1&join=true [L]
+RewriteRule ^groups/member/admin/id/([0-9]+)/role/([a-zA-Z0-9_-]+)/userid/([0-9]+)/?$ groupadmin.php?id=$1&role=admin&userid=$3 [L]
+RewriteRule ^groups/member/normal/id/([0-9]+)/role/([a-zA-Z0-9_-]+)/userid/([0-9]+)/?$ groupadmin.php?id=$1&role=normal&userid=$3 [L]
+RewriteRule ^groups/member/moderator/([0-9]+)/role/([a-zA-Z0-9_-]+)/userid/([0-9]+)/?$ groupadmin.php?id=$1&role=$2&userid=$3 [L]
+RewriteRule ^groups/member/flagged/([0-9]+)/role/([a-zA-Z0-9_-]+)/userid/([0-9]+)/?$ groupadmin.php?id=$1&role=flagged&userid=$3 [L]
+RewriteRule ^groups/member/banned/id/([0-9]+)/role/([a-zA-Z0-9_-]+)/userid/([0-9]+)/?$ groupadmin.php?id=$1&role=banned&userid=$3 [L]
+RewriteRule ^groups/page/([0-9]+)/?$ groups.php?page=$1 [L]
+RewriteRule ^groups/unjoin/([0-9]+)/? join_group.php?id=$1&join=false [L]
+RewriteRule ^groups/withdraw/([0-9]+)/user_id/([0-9]+)/?$ join_group.php?group_id=$1&user_id=$2&activate=withdraw [L]
+
+## Live
+RewriteRule ^live/?$ live.php [L]
+RewriteRule ^live/comments/?$ live_comments.php [L]
+RewriteRule ^live/comments/page/([^/]+)/?$ live_comments.php?page=$1 [L]
+RewriteRule ^live/published/?$ live_published.php [L]
+RewriteRule ^live/published/page/([^/]+)/?$ live_published.php?page=$1 [L]
+RewriteRule ^live/new/?$ live_unpublished.php [L]
+RewriteRule ^live/new/page/([^/]+)/?$ live_unpublished.php?page=$1 [L]
+
+## Photo ALbums
+RewriteRule ^photoalbums/([^/]+)/?$ /profileviews/photoalbums.php?username=$1 [L]
+
+## Modules
+RewriteRule ^inbox/?$ module.php?module=simple_messaging&view=inbox [L]
+RewriteRule ^sitemapindex.xml module.php?module=xml_sitemaps_show_sitemap [L]
+RewriteRule ^sitemap-([a-zA-Z0-9]+).xml module.php?module=xml_sitemaps_show_sitemap&i=$1 [L]
+RewriteRule ^status/([0-9]+)/?$ modules/status/status.php?id=$1 [L]
+RewriteRule ^sitemap-([0-9a-z]+).xml module.php?module=xml_sitemaps_show_sitemap&i=$1 [L]
+
+## Pages
+RewriteRule ^about/?$ page.php?page=about [L]
+RewriteRule ^static/([^/]+)/?$ page.php?page=$1 [L]
+
+## Pagination
+RewriteRule ^category/([^/]+)/page/([^/]+)/?$ index.php?category=$1&page=$2 [L]
+RewriteRule ^page/([^/]+)/?$ index.php?page=$1 [L]
+RewriteRule ^page/([^/]+)/([^/]+)category/([^/]+)/?$ index.php?page=$1&part=$2&category=$3 [L]
+RewriteRule ^new/([^/]+)/page/(\d+)/?$ new.php?v=$1 [L,QSA]
+RewriteRule ^new/([^/]+)/page/(\d+)/?$ new.php?category=$1&page=$2 [L]
+RewriteRule ^jobs/([^/]+)/page/(\d+)/?$ new.php?category=$1&page=$2&jobs=1 [L]
+RewriteRule ^published/page/([^/]+)/([^/]+)/?$ index.php?page=$1&category=$2 [L]
+RewriteRule ^published/page/([^/]+)/([^/]+)/([^/]+)/?$ index.php?page=$1&part=$2&category=$3 [L]
+RewriteRule ^published/page/([^/]+)/?$ index.php?page=$1 [L]
+RewriteRule ^published/page/([^/]+)/category/([^/]+)/?$ index.php?page=$1&category=$2 [L]
+RewriteRule ^published/page/([^/]+)/([^/]+)category/([^/]+)/?$ index.php?page=$1&part=$2&category=$3 [L]
+RewriteRule ^published/page/([^/]+)/([^/]+)/?$ index.php?page=$1&part=$2 [L]
+RewriteRule ^published/page/([^/]+)/range/([^/]+)/?$ ?page=$1&range=$2 [L]
+RewriteRule ^search/page/([^/]+)/([^/]+)/?$ search.php?page=$1&search=$2 [QSA,NC,L]
+RewriteRule ^topusers/page/([^/]+)/?$ topusers.php?page=$1 [L]
+RewriteRule ^topusers/page/([^/]+)/sortby/([^/]+)?$ topusers.php?page=$1&sortby=$2 [L]
+RewriteRule ^user/page/([^/]+)/([^/]+)/([^/]+)/?$ user.php?page=$1&view=$2&login=$3 [L]
+RewriteRule ^user/([^/]+)/([^/]+)/page/(\d+)/?$ user.php?page=$3&view=$1&login=$2 [L]
+RewriteRule ^userqa/page/(\d+)/?$ userqa/index.php?page=$1 [L]
+RewriteRule ^userqa/question/id/(\d+)/page/(\d+)/?$ userqa/question.php?page=$2&id=$1 [L]
+
+## search freelancer
+RewriteRule ^freelancers/search/?$ freelancers/search.php [L]
+
+##NEW SEARCH
+#RewriteRule ^mcsearch/keyword/([^/]+)/?$ mcsearch/?keyword=$1 [L]
+#RewriteRule ^mcsearch/page/(\d+)/?$ mcsearch/?keyword=$1&page=$2 [L]
+#RewriteRule ^mcsearch/keyword/([^/]+)/([a-zA-Z0-9-]+)/?$ mcsearch/index.php?keyword=$1&tabs=$2 [QSA,L]
+#RewriteRule ^mcsearch/keyword/([^/]+)/([a-zA-Z0-9-]+)/page/(\d+)/?$ mcsearch/?keyword=$1&tabs=$2&page=$3 [L]
+#RewriteRule ^mcsearch/keyword/([a-zA-Z0-9-]+)/([a-zA-Z0-9-]+)/page/(\d+)/?$ mcsearch/?keyword=$1&tabs=$2&page=$3 [L]
+
+## Sort
+RewriteRule ^(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/?$ index.php?part=$1 [L]
+RewriteRule ^(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/category/([^/]+)/?$ index.php?part=$1&category=$2 [L]
+RewriteRule ^(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/page/(\d+)/?$ index.php?part=$1&page=$2 [L]
+RewriteRule ^(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/category/([^/]+)/page/(\d+)/?$ index.php?part=$1&category=$2&page=$3 [L]
+RewriteRule ^new/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/([^/]+)/?$ new.php?v=$1 [L,QSA]
+RewriteRule ^new/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/([^/]+)/?$ new.php?part=$1&category=$2 [L]
+RewriteRule ^new/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/([^/]+)/page/(\d+)/?$ new.php?part=$1&category=$2&page=$3 [L]
+RewriteRule ^jobs/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/([^/]+)/?$ new.php?part=$1&category=$2&jobs=1 [L]
+RewriteRule ^jobs/(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/([^/]+)/page/(\d+)/?$ new.php?part=$1&category=$2&page=$3&jobs=1 [L]
+RewriteRule ^(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/([^/]+)/?$ index.php?part=$1&category=$2 [L]
+RewriteRule ^(year|month|week|today|yesterday|recent|alltime|upvoted|downvoted|commented)/([^/]+)/page/(\d+)/?$ index.php?part=$1&category=$2&page=$3 [L]
+
+
+## New submit article JULY 2015
+RewriteRule ^article/post/?$ article/post.php [QSA,L]
+RewriteRule ^article/([^/]+)/edit/?$ article/post.php?id=$1 [QSA,L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^/]+)/?$ index.php?category=$1 [L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^/]+)/([^/]+)/?$ gateway.php?title=$2&category=$1 [L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^/]+)/page/([^/]+)/?$ index.php?category=$1&page=$2 [L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^/]+)/([^/]+)/?$ story.php?title=$2&category=$1 [L,QSA]
+RewriteRule ^([^/]+)/([^/]+)/([0-9]+)/?$ story.php?title=$2&category=$1&comment_id=$3 [L]
+RewriteRule ^([^/]+)/([^/]+)/reply/([0-9]+)/?$ story.php?title=$2&category=$1&comment_id=$3&reply=1 [L]
+
+
+
+
+##### URL Method 2 End #####
+
+## Disable directory browsing
+Options All -Indexes
+
+## Block out any script trying to set a mosConfig value through the URL
+RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]
+## Block out any script trying to base64_encode stuff to send via URL
+RewriteCond %{QUERY_STRING} base64_encode.*\(.*\) [OR]
+## Block out any script that includes a <script> tag in URL
+RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
+## Block out any script trying to set a PHP GLOBALS variable via URL
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+## Block out any script trying to modify a _REQUEST variable via URL
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+
+## Block pycurl bot
+RewriteEngine on
+RewriteCond %{HTTP_USER_AGENT} ^pycurl/ [NC]
+RewriteRule .* - [F]
+
+# BEGIN Compress text files
+<IfModule mod_deflate.c>
+<FilesMatch "\.(css|js|x?html?|php)$">
+SetOutputFilter DEFLATE
+</FilesMatch>
+</IfModule>
+# END Compress text files
+# BEGIN Expire headers
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresDefault "access plus 1 seconds"
+ExpiresByType image/x-icon "access plus 2592000 seconds"
+ExpiresByType image/jpeg "access plus 2592000 seconds"
+ExpiresByType image/png "access plus 2592000 seconds"
+ExpiresByType image/gif "access plus 2592000 seconds"
+ExpiresByType application/x-shockwave-flash "access plus 2592000 seconds"
+ExpiresByType text/css "access plus 604800 seconds"
+ExpiresByType text/javascript "access plus 216000 seconds"
+ExpiresByType application/x-javascript "access plus 216000 seconds"
+ExpiresByType text/html "access plus 600 seconds"
+ExpiresByType application/xhtml+xml "access plus 600 seconds"
+</IfModule>
+# END Expire headers
+# BEGIN Cache-Control Headers
+<IfModule mod_headers.c>
+<FilesMatch "\\.(ico|jpe?g|png|gif|swf)$">
+Header set Cache-Control "max-age=2592000, public"
+</FilesMatch>
+<FilesMatch "\\.(css)$">
+Header set Cache-Control "max-age=604800, public"
+</FilesMatch>
+<FilesMatch "\\.(js)$">
+Header set Cache-Control "max-age=216000, private"
+</FilesMatch>
+<FilesMatch "\\.(x?html?|php)$">
+Header set Cache-Control "max-age=600, private, must-revalidate"
+</FilesMatch>
+</IfModule>
+# END Cache-Control Headers
+# BEGIN Turn ETags Off
+<IfModule mod_headers.c>
+Header unset ETag
+</IfModule>
+FileETag None
+# END Turn ETags Off
+# BEGIN Remove Last-Modified Header
+<IfModule mod_headers.c>
+Header unset Last-Modified
+</IfModule>
+# END Remove Last-Modified Header
+
+<files "settings.php">
+order allow,deny
+deny from all
+</files>
+
+<files ~ "\.(tpl|log)$">
+order deny,allow
+allow from none
+deny from all
+</files>
+
