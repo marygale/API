@@ -96,7 +96,7 @@ abstract class API extends APIController
         return (strtolower($this->method) == strtolower($type));
     }
 
-    public function processAPI() { echo 'process';die;
+    public function processAPI() {
         if ((int)method_exists($this, $this->endpoint) > 0) {
             return $this->_response($this->{$this->endpoint}($this->args));
         }

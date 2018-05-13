@@ -1,6 +1,6 @@
 <?php
 
-if (!array_key_exists('HTTP_ORIGIN', $_SERVER)) {
+if (!array_key_exists('HTTP_ORIGIN', $_SERVER)) { echo 'server';die;
     $_SERVER['HTTP_ORIGIN'] = $_SERVER['SERVER_NAME'];
 }
 
