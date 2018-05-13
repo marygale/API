@@ -1,6 +1,10 @@
+Allow from all
+
 ## Re-directing Begin
 Options +FollowSymlinks -MultiViews
 RewriteEngine on
+
+RewriteBase /
 
 # Request URL for API RESTfull Services
 RewriteRule ^api/(.*)$ api/restfull.php?request=$1 [QSA,NC,L]
