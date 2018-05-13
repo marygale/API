@@ -1,0 +1,10 @@
+## Re-directing Begin
+Options +FollowSymlinks -MultiViews
+RewriteEngine on
+
+# Request URL for API RESTfull Services
+RewriteRule ^api/(.*)$ restfull.php?request=$1 [QSA,NC,L]
+
+RewriteRule ^api/(.*)/?$ api.php?type=$1&page=$2 [QSA,NC,L]
+RewriteRule ^api/(.*)/?$ api.php?type=$1&page=$2&tag=$3 [L]
+
