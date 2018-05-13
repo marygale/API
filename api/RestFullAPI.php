@@ -4,7 +4,7 @@ include_once('../config.php');
 require_once 'utils/API.php';
 error_reporting(E_ALL ^ E_STRICT);
 
-class restfull extends API{
+class RestFullAPI extends API{
     protected $oToken  = null;
     protected $iCurrentUserId = 0;
     protected $con = null;
@@ -69,7 +69,7 @@ if (!array_key_exists('HTTP_ORIGIN', $_SERVER)) {
 }
 
 try {
-    $API = new restfull($_REQUEST['request'], $_SERVER['HTTP_ORIGIN']);
+    $API = new RestFullAPI ($_REQUEST['request'], $_SERVER['HTTP_ORIGIN']);
     echo $API->processAPI();
 } catch (Exception $e) {
     echo json_encode(array('error' => $e->getMessage()));

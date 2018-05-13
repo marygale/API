@@ -1,6 +1,7 @@
 <?php
+require_once 'api/APIController.php';
 
-abstract class API
+abstract class API extends APIController
 {
     /**
      * Property: method
