@@ -16,6 +16,14 @@ class restfull extends API{
         $this->con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
         $this->con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: *");
+        header("Access-Control-Request-Headers: X-Requested-With, accept, content-type");
+        header("Access-Control-Allow-Headers:Content-Type, Accept, Authorization, X-Requested-With");
+        header('Cache-Control: no-cache, must-revalidate');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header("Content-Type: application/json");
+
     }
 
     protected function getUsers(){
