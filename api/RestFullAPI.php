@@ -5,7 +5,7 @@ if (!array_key_exists('HTTP_ORIGIN', $_SERVER)) {
 }
 
 try {
-    $API = new RestFullAPI ($_REQUEST['request'], $_SERVER['HTTP_ORIGIN']);echo 'try';
+    $API = new RestFullAPI ($_REQUEST['request'], $_SERVER['HTTP_ORIGIN']);
     echo $API->processAPI();
 } catch (Exception $e) {
     echo json_encode(array('error' => $e->getMessage()));
