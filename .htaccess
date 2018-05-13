@@ -1,5 +1,3 @@
-Allow from all
-
 ## Re-directing Begin
 Options +FollowSymlinks -MultiViews
 RewriteEngine on
