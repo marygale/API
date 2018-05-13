@@ -35,6 +35,10 @@ class restfull extends API{
             return $results;
         }
     }
+
+    protected function test(){
+        return 'this is a test';
+    }
     /*public function __construct($request, $origin) {
         parent::__construct ( $request );
         if ($this->verb != '') {
