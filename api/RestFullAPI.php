@@ -5,7 +5,6 @@ if (!array_key_exists('HTTP_ORIGIN', $_SERVER)) {
 }
 
 try {
-    echo 'api';
     $API = new RestFullAPI ($_REQUEST['request'], $_SERVER['HTTP_ORIGIN']); echo 'try ';die;
     echo $API->processAPI();
 } catch (Exception $e) {echo 'catch ';die;
@@ -24,9 +23,9 @@ class RestFullAPI extends API{
 
     const TTT_VERSION = 'v1';
 
-    public function __construct($request, $origin) { echo 'galecons';
+    public function __construct($request, $origin) {
         parent::__construct ( $request );
-
+        echo 'galecons';
 
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Methods: *");
