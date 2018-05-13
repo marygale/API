@@ -13,7 +13,7 @@ class restfull extends API{
 
     public function __construct()
     {
-        return 'gale';
+        echo 'galecons';
         $this->con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
         $this->con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 
@@ -37,8 +37,8 @@ class restfull extends API{
         }
     }
 
-    protected function test(){
-        if($this->method('GET')){
+    protected function test(){ return 'test';
+        if($this->method('POST')){
             return 'this is a test';
         }
     }
