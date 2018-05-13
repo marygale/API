@@ -9,7 +9,7 @@ try{
     $query = $con->prepare( $sql );
     $query->execute();
     $results = $query->fetchAll(PDO::FETCH_ASSOC);
-    var_dump(results);
+    var_dump($results);
 }catch (PDOException $e) {
     print_r($stmt->errorInfo());
     print_r('<script>alert("Error '.$stmt->errorCode().' has occurred. Please contact support@gale.com and try again later.")</script>');
