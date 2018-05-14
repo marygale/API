@@ -37,7 +37,7 @@ class RestFullAPI extends API{
         header("Content-Type: application/json");
 
     }
-    
+
     /*https://mgsurvey.herokuapp.com/api/getUsers/*/
     protected function getUsers(){
         if($this->method('GET')){
