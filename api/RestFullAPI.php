@@ -38,7 +38,7 @@ class RestFullAPI extends API{
 
     }
 
-    public function getUsers(){
+    protected function getUsers(){
         if($this->method('GET')){
             $sql = "Select * FROM users";
             $query = $this->con->prepare( $sql );
@@ -48,7 +48,7 @@ class RestFullAPI extends API{
         }
     }
 
-    public function test(){
+    protected function test(){
         return 'gale test';
     }
 
