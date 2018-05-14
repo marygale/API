@@ -8,4 +8,4 @@ RewriteBase /
 #RewriteRule ^api/(.*)/?$ api/RestFullAPI.php?request=$1 [QSA,NC,L]
 
 RewriteRule ^api/(.*)$ api/RestFullAPI.php?request=$1 [NC]
-RewriteRule ^(.*)$ index.php?request=$1 [NC]
+#RewriteRule ^(.*)$ index.php?request=$1 [NC]
