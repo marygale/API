@@ -45,8 +45,8 @@ abstract class API extends APIController
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         header("Content-Type: application/json");
 
-        $this->args = explode('/', rtrim($request, '/'));var_dump($this->args);
-        $this->endpoint = array_shift($this->args);var_dump($this->endpoint);die;
+        $this->args = explode('/', rtrim($request, '/'));
+        $this->endpoint = array_shift($this->args);
         if (array_key_exists(0, $this->args) && !is_numeric($this->args[0])) {
             $this->verb = array_shift($this->args);
         }
