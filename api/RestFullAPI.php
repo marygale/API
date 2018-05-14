@@ -5,7 +5,7 @@ if (!array_key_exists('HTTP_ORIGIN', $_SERVER)) {
 }
 
 try {
-    $API = new RestFullAPI ($_REQUEST['request'], $_SERVER['HTTP_ORIGIN']); echo 'try ';die;
+    $API = new RestFullAPI ($_REQUEST['request'], $_SERVER['HTTP_ORIGIN']);
     echo $API->processAPI();
 } catch (Exception $e) {echo 'catch ';die;
     echo json_encode(array('error' => $e->getMessage()));
@@ -36,6 +36,23 @@ class RestFullAPI extends API{
         header("Content-Type: application/json");
 
     }
+
+    protected function getUsers(){
+        if($this->method('GET')){
+            $sql = "Select * FROM users";
+            $query = $this->con->prepare( $sql );
+            $query->execute();
+            $results = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        }
+    }
+
+    public function test(){ return 'test pbf';
+        if($this->method('POST')){
+            return 'this is a test';
+        }
+    }
+
 }
 
 
