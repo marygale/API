@@ -37,8 +37,9 @@ class RestFullAPI extends API{
         header("Content-Type: application/json");
 
     }
-
-    public function getUsers(){
+    
+    /*https://mgsurvey.herokuapp.com/api/getUsers/*/
+    protected function getUsers(){
         if($this->method('GET')){
             $sql = "Select * FROM users";
             $query = $this->con->prepare( $sql );
