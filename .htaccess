@@ -5,5 +5,6 @@ RewriteEngine On
 RewriteBase /
 
 # Request URL for API RESTfull Services
-RewriteRule ^api/(.*)/?$ api/RestFullAPI.php?request=$1 [QSA,NC,L]
+#RewriteRule ^api/(.*)/?$ api/RestFullAPI.php?request=$1 [QSA,NC,L]
 
+RewriteRule ^api/(.*)$ api/RestFullAPI.php?request=$1 [NC]
