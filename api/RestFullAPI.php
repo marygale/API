@@ -39,7 +39,7 @@ class RestFullAPI extends API{
         }
     }
 
-    protected function test(){
+    public function test(){
         if($this->method('POST')){
             $res = 'this is a test';
             return $res;
