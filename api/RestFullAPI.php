@@ -38,7 +38,7 @@ class RestFullAPI extends API{
 
     }
 
-    protected function getUsers(){
+    public function getUsers(){
         if($this->method('GET')){
             $sql = "Select * FROM users";
             $query = $this->con->prepare( $sql );
