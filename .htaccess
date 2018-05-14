@@ -4,7 +4,6 @@ RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
 RewriteRule ^(.*) - [E=BASE:%1]
 
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
-RewriteRule ^app\.php(/(.*)|$) %{ENV:BASE}/$2 [R=301,L]
 
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule .? - [L]
@@ -14,3 +13,10 @@ RewriteRule .? %{ENV:BASE}/app.php [L]
 # Request URL for API RESTfull Services
 RewriteRule ^api/(.*)$ api/RestFullAPI.php?request=$1 [QSA,NC,L]
 
+# To externally redirect /dir/foo.php to /dir/foo
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^\.]+)\.php [NC]
+RewriteRule ^ %1 [R,L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*?)/?$ $1.php [NC,L]
