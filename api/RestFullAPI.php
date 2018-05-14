@@ -49,6 +49,16 @@ class RestFullAPI extends API{
         }
     }
 
+    protected function getSurveyList(){
+        if($this->method('GET')){
+            $sql = "Select * FROM surveys";
+            $query = $this->con->prepare( $sql );
+            $query->execute();
+            $results = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        }
+    }
+
     protected function test(){
         return 'gale test';
     }

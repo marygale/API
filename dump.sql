@@ -1,4 +1,6 @@
 /*Added*/
+INSERT INTO surveys (id, name, password, status, email_verification_on, user_id, open, created, modified, is_deleted) VALUES
+(1, 'Feedback for Director Bonnie', 'bonnie123', 0, 1, 1, 1, '2018-05-10 20:55:45', '2018-05-10 20:55:45', 'no');
 CREATE TABLE survey_results (
   id serial PRIMARY KEY,
   survey_id INTEGER references surveys(id),
