@@ -9,12 +9,15 @@ class RestFullAPI extends API{
 
     protected $oToken         = null;
     protected $iCurrentUserId = 0;
+    protected $con = null;
 
     const TTT_VERSION = 'v1';
 
     public function __construct($request, $origin) {
         parent::__construct ( $request );
-        echo 'galecons';
+
+        $this->con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+        $this->con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Methods: *");
