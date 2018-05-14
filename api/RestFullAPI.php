@@ -1,8 +1,8 @@
 <?php
-/*include_once('../config.php');
+include_once('../config.php');
 
-require_once 'utils/API.php';
-error_reporting(E_ALL ^ E_STRICT);*/
+require_once '../utils/API.php';
+error_reporting(E_ALL ^ E_STRICT);
 
 if (!array_key_exists('HTTP_ORIGIN', $_SERVER)) {
     $_SERVER['HTTP_ORIGIN'] = $_SERVER['SERVER_NAME'];

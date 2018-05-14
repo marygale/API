@@ -1,5 +1,5 @@
 <?php
-require_once 'api/APIController.php';
+require_once '../api/APIController.php';
 
 abstract class API extends APIController
 {
