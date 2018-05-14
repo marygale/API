@@ -51,7 +51,6 @@ if (!array_key_exists('HTTP_ORIGIN', $_SERVER)) {
 }
 
 try {
-    var_dump($_REQUEST['request']);var_dump($_SERVER['HTTP_ORIGIN']);die;
     $API = new RestFullAPI ($_REQUEST['request'], $_SERVER['HTTP_ORIGIN']);
     echo $API->processAPI();
 } catch (Exception $e) {echo 'catch ';die;
