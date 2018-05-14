@@ -45,8 +45,8 @@ abstract class API extends APIController
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         header("Content-Type: application/json");
 
-        $this->args = explode('/', rtrim($request, '/'));
-        $this->endpoint = array_shift($this->args);
+        $this->args = explode('/', rtrim($request, '/'));var_dump($this->args);
+        $this->endpoint = array_shift($this->args);var_dump($this->endpoint);die;
         if (array_key_exists(0, $this->args) && !is_numeric($this->args[0])) {
             $this->verb = array_shift($this->args);
         }
@@ -100,8 +100,7 @@ abstract class API extends APIController
         if ((int)method_exists($this, $this->endpoint) > 0) {
             return $this->_response($this->{$this->endpoint}($this->args));
         }
-        /*return $this->_response('', 400);*/
-        return $this->_response($this->{$this->endpoint}($this->args));
+        return $this->_response('', 400);
     }
 
     private function _response($data, $status = 200) {
