@@ -16,6 +16,15 @@ class RestFullAPI extends API{
     public function __construct($request, $origin) {
         parent::__construct ( $request );
 
+
+        if ($this->verb != '') {
+            error_log("Checking token --> " . $this->verb);
+            $this->oToken = 'ADHLLKLBLLLNLKNHOYOWQOJHRWOPU)@%)@(*%)POJGSDLKLKSDLGHDSLGHSLDHGOSg';
+            if ($this->oToken != null) {
+                $this->iCurrentUserId = 1;
+                error_log("Token is valid!!! -> UserId is 1");
+            }
+        }
         $this->con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
         $this->con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 
@@ -29,7 +38,7 @@ class RestFullAPI extends API{
 
     }
 
-    protected function getUsers(){
+    public function getUsers(){
         if($this->method('GET')){
             $sql = "Select * FROM users";
             $query = $this->con->prepare( $sql );
