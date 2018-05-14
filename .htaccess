@@ -5,7 +5,7 @@ RewriteEngine On
 RewriteBase /
 
 # Request URL for API RESTfull Services
-RewriteRule ^api/(.*)$ api/RestFullAPI.php?request=$1 [QSA,NC,L]
+RewriteRule ^api/(.*)/?$ api/RestFullAPI.php?request=$1 [QSA,NC,L]
 
 # Routing services
 RewriteCond %{QUERY_STRING} !(^|(?<=&))(%20|\s)*(_rsv|_escaped_fragment_)((%20|\s)*=(%20|\s)*[^&]*)?(&|$)
@@ -18,3 +18,6 @@ RewriteRule ^ %1 [R,L]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.*?)/?$ $1.php [NC,L]
+
+## Force forward slash at the end of URL
+RewriteCond %{REQUEST_URI} !(\.[a-zA-Z0-9]{1,5}|/)$
