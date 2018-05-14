@@ -1,17 +1,15 @@
+Options +FollowSymLinks -MultiViews -Indexes
+
+# Turn mod_rewrite on
 RewriteEngine On
-
-RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
-RewriteRule ^(.*) - [E=BASE:%1]
-
-RewriteCond %{ENV:REDIRECT_STATUS} ^$
-
-RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule .? - [L]
-
-RewriteRule .? %{ENV:BASE}/index.php [L]
+RewriteBase /
 
 # Request URL for API RESTfull Services
 RewriteRule ^api/(.*)$ api/RestFullAPI.php?request=$1 [QSA,NC,L]
+
+# Routing services
+RewriteCond %{QUERY_STRING} !(^|(?<=&))(%20|\s)*(_rsv|_escaped_fragment_)((%20|\s)*=(%20|\s)*[^&]*)?(&|$)
+RewriteRule ^service/(.+\.php)$ /service.php?_rsv=$1&%{QUERY_STRING} [L]
 
 # To externally redirect /dir/foo.php to /dir/foo
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^\.]+)\.php [NC]
