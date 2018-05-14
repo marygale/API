@@ -8,7 +8,7 @@ RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule .? - [L]
 
-RewriteRule .? %{ENV:BASE}/app.php [L]
+RewriteRule .? %{ENV:BASE}/index.php [L]
 
 # Request URL for API RESTfull Services
 RewriteRule ^api/(.*)$ api/RestFullAPI.php?request=$1 [QSA,NC,L]
