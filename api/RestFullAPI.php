@@ -40,9 +40,22 @@ class RestFullAPI extends API{
 
     protected function register(){
         return $_POST['name'];
-        /*if($this->method('POST')){var_dump($this->request);
-            return $_POST['name'];
-        }*/
+        if($this->method('POST')){
+            $fname = isset($_POST['first_name']) ? $_POST['first_name'] : "";
+            $lname = isset($_POST['last_name']) ? $_POST['last_name'] : "";
+            $email = isset($_POST['email_address']) ? $_POST['email_address'] : "";
+            $address = isset($_POST['address']) ? $_POST['address'] : "";
+            $stored_hash = '1a52e17fa899cf40fb04cfc42e6352f1';
+            $salt = 'XyZzy12*_';
+            $password = hash('md5',$salt . htmlentities($_POST['password']));
+            $sql = "INSERT into users (first_name,last_name,email_address, password) VALUES (:Sfname, :Slname, :Semail, :Spass)";
+            $stmt = $con->prepare( $sql );
+            $stmt->bindParam(':Sfname', $fname, PDO::PARAM_STR);
+            $stmt->bindParam(':Slname', $lname, PDO::PARAM_STR);
+            $stmt->bindParam(':Semail', $email, PDO::PARAM_STR);
+            $stmt->bindParam(':Spass', $password, PDO::PARAM_STR);
+            return $stmt->execute() > 0 ? TRUE : FALSE;
+        }
     }
 
     /*https://mgsurvey.herokuapp.com/api/getUsers/*/
