@@ -39,8 +39,9 @@ class RestFullAPI extends API{
     }
 
     protected function register(){
-        if($this->method('POST')){
-            return $_POST;
+        echo 'register';
+        if($this->method('POST')){var_dump($this->request);
+            return $_POST['name'];
         }
     }
 
