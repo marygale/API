@@ -49,7 +49,7 @@ class RestFullAPI extends API{
         }
     }
 
-    protected function getSurveyList(){ echo 'survye';
+    protected function getSurveyList(){
         if($this->method('GET')){
             $sql = "Select * FROM surveys";
             $query = $this->con->prepare( $sql );
