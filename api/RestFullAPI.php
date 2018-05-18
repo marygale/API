@@ -39,10 +39,10 @@ class RestFullAPI extends API{
     }
 
     protected function register(){
-        echo 'register';
-        if($this->method('POST')){var_dump($this->request);
+        return $_POST['name'];
+        /*if($this->method('POST')){var_dump($this->request);
             return $_POST['name'];
-        }
+        }*/
     }
 
     /*https://mgsurvey.herokuapp.com/api/getUsers/*/
