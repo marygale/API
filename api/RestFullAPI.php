@@ -83,6 +83,36 @@ class RestFullAPI extends API{
         return 'gale test';
     }
 
+    protected function quiz()
+    {
+        return [
+            [
+                'quiz_id' => 1,
+                'quiz_title' => "Quiz Title #1",
+                'quiz_desc' => 'Quiz Desc',
+                'quiz_protected' => 'true'
+            ],
+            [
+                'quiz_id' => 2,
+                'quiz_title' => "Quiz Title #2",
+                'quiz_desc' => 'Quiz Desc',
+                'quiz_protected' => 'false'
+            ],
+            [
+                'quiz_id' => 3,
+                'quiz_title' => "Quiz Title #3",
+                'quiz_desc' => 'Quiz Desc',
+                'quiz_protected' => 'false'
+            ],
+            [
+                'quiz_id' => 4,
+                'quiz_title' => "Quiz Title #4",
+                'quiz_desc' => 'Quiz Desc',
+                'quiz_protected' => 'true'
+            ]
+        ];
+    }
+
 }
 
 
