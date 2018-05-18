@@ -38,7 +38,7 @@ class RestFullAPI extends API{
 
     }
 
-    protected function register(){
+    protected function postRegister(){
         if($this->method('POST')){
             $fname = isset($_POST['first_name']) ? $_POST['first_name'] : "";
             $lname = isset($_POST['last_name']) ? $_POST['last_name'] : "";
@@ -54,7 +54,7 @@ class RestFullAPI extends API{
             $stmt->bindParam(':Semail', $email, PDO::PARAM_STR);
             $stmt->bindParam(':Spass', $password, PDO::PARAM_STR);
             return $stmt->execute() > 0 ? TRUE : FALSE;
-        }
+        }echo 'postRegister';
     }
 
     /*https://mgsurvey.herokuapp.com/api/getUsers/*/
