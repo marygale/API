@@ -38,6 +38,12 @@ class RestFullAPI extends API{
 
     }
 
+    protected function register(){
+        if($this->method('POST')){
+            var_dump($this->request);
+        }
+    }
+
     /*https://mgsurvey.herokuapp.com/api/getUsers/*/
     protected function getUsers(){
         if($this->method('GET')){

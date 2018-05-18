@@ -1,4 +1,27 @@
 /*Added*/
+
+CREATE TABLE standard_questions (
+  id int NOT NULL,
+  name text NOT NULL,
+  type varchar(150) NOT NULL,
+  with_options int NOT NULL DEFAULT '1',
+  is_calculating int NOT NULL DEFAULT '1',
+  is_deleted int NOT NULL DEFAULT '0',
+  created date NOT NULL,
+  modified date NOT NULL
+);
+
+CREATE TABLE standard_question_options (
+  id int NOT NULL,
+  name varchar(255) NOT NULL,
+  question_id int NOT NULL,
+  score int NOT NULL,
+  is_deleted int NOT NULL DEFAULT '0',
+  created date NOT NULL,
+  modified date NOT NULL
+);
+
+
 INSERT INTO surveys (id, name, password, status, email_verification_on, user_id, open, created, modified, is_deleted) VALUES
 (1, 'Feedback for Director Bonnie', 'bonnie123', 0, 1, 1, 1, '2018-05-10 20:55:45', '2018-05-10 20:55:45', 'no');
 CREATE TABLE survey_results (
@@ -64,6 +87,9 @@ CREATE TABLE questions (
   modified date DEFAULT NULL,
   is_deleted integer NOT NULL
 );
+
+INSERT INTO `questions` (`id`, `survey_id`, `name`, `description`, `type`, `with_options`, `is_calculating`, `include_no_response`, `no_response_option`, `survey_theme_id`, `created`, `modified`, `is_deleted`) VALUES
+(1, 88, 'Is making significant progress towards building-level school improvement.', NULL, 'likert', 1, 0, 0, '', 108, '2018-05-18', '2018-05-18', 'no'),
 
 
 CREATE TABLE users (
