@@ -40,6 +40,7 @@ class RestFullAPI extends API{
 
     protected function postRegister(){
         if($this->method('POST')){
+            $aResult = ['status' => 'failed'];
             $fname = isset($_POST['first_name']) ? $_POST['first_name'] : "";
             $lname = isset($_POST['last_name']) ? $_POST['last_name'] : "";
             $email = isset($_POST['email_address']) ? $_POST['email_address'] : "";
@@ -53,8 +54,13 @@ class RestFullAPI extends API{
             $stmt->bindParam(':Slname', $lname, PDO::PARAM_STR);
             $stmt->bindParam(':Semail', $email, PDO::PARAM_STR);
             $stmt->bindParam(':Spass', $password, PDO::PARAM_STR);
-            return $stmt->execute() > 0 ? TRUE : FALSE;
-        }echo 'postRegister';
+            $bSave = $stmt->execute() > 0 ? TRUE : FALSE;
+            if($bSave){
+                $aResult['status' => 'ok', 'msg' => 'New record added']    ;
+            }
+
+            return $aResult;
+        }
     }
 
     /*https://mgsurvey.herokuapp.com/api/getUsers/*/
