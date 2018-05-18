@@ -53,7 +53,7 @@ class RestFullAPI extends API{
             $stored_hash = '1a52e17fa899cf40fb04cfc42e6352f1';
             $salt = 'XyZzy12*_';
             $password = hash('md5',$salt . htmlentities($_POST['password']));
-            $sql = "INSERT into users (first_name,last_name,address,email_address, password) VALUES (:Sfname, :Slname, :Semail, :Saddress, :Spass)";
+            $sql = "INSERT into users (first_name,last_name,address,email_address, password) VALUES (:Sfname, :Slname, :Saddress, :Semail, :Spass)";
             $stmt = $this->con->prepare( $sql );
             $stmt->bindParam(':Sfname', $fname, PDO::PARAM_STR);
             $stmt->bindParam(':Slname', $lname, PDO::PARAM_STR);
