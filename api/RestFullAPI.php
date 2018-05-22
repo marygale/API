@@ -99,7 +99,7 @@ class RestFullAPI extends API{
             return $results;
         }
     }
-    protected function getQuestionsWithDimension(){return 'gale';
+    protected function getQuestionsWithDimension(){return var_dump($_POST["dimension"]);
         /*if($this->method('POST')){
             $selected_dimen = [1,3, 4];
             $sql = "SELECT dimension.name as dimension_name, dimension.id as dimension_id, questions.* FROM dimension, questions WHERE dimension.id = questions.dimension AND dimension.id IN(".$selected_dimen.");";
