@@ -25,8 +25,13 @@ class RestFullAPI extends API{
                 error_log("Token is valid!!! -> UserId is 1");
             }
         }
-        $this->con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-        $this->con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+        try{
+            $this->con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+            $this->con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+        }catch (PDOException $e) {
+            print_r($stmt->errorInfo());
+            print_r('<script>alert("Error '.$stmt->errorCode().' has occurred. Please contact support@gale.com and try again later.")</script>');
+        }
 
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Methods: *");
@@ -38,9 +43,9 @@ class RestFullAPI extends API{
 
     }
 
-    protected function register(){
-        return $_POST['name'];
+    protected function postRegister(){
         if($this->method('POST')){
+            $aResult = ['status' => 'failed'];
             $fname = isset($_POST['first_name']) ? $_POST['first_name'] : "";
             $lname = isset($_POST['last_name']) ? $_POST['last_name'] : "";
             $email = isset($_POST['email_address']) ? $_POST['email_address'] : "";
@@ -48,13 +53,20 @@ class RestFullAPI extends API{
             $stored_hash = '1a52e17fa899cf40fb04cfc42e6352f1';
             $salt = 'XyZzy12*_';
             $password = hash('md5',$salt . htmlentities($_POST['password']));
-            $sql = "INSERT into users (first_name,last_name,email_address, password) VALUES (:Sfname, :Slname, :Semail, :Spass)";
-            $stmt = $con->prepare( $sql );
+            $sql = "INSERT into users (first_name,last_name,address,email_address, password) VALUES (:Sfname, :Slname, :Saddress, :Semail, :Spass)";
+            $stmt = $this->con->prepare( $sql );
             $stmt->bindParam(':Sfname', $fname, PDO::PARAM_STR);
             $stmt->bindParam(':Slname', $lname, PDO::PARAM_STR);
+            $stmt->bindParam(':Saddress', $address, PDO::PARAM_STR);
             $stmt->bindParam(':Semail', $email, PDO::PARAM_STR);
             $stmt->bindParam(':Spass', $password, PDO::PARAM_STR);
-            return $stmt->execute() > 0 ? TRUE : FALSE;
+            $bSave = $stmt->execute() > 0 ? TRUE : FALSE;
+            if($bSave){
+                $aResult['status'] = 'ok';
+                $aResult['msg'] = 'New record added';
+            }
+
+            return $aResult;
         }
     }
 
