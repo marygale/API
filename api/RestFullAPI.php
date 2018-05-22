@@ -90,9 +90,20 @@ class RestFullAPI extends API{
             return $results;
         }
     }
-    protected function getQuestionsWithDimension(){
+    protected function getAllQuestionsWithDimension(){
         if($this->method('GET')){
             $sql = "SELECT dimension.name as dimension_name, dimension.id as dimension_id, questions.* FROM dimension, questions WHERE dimension.id = questions.dimension;";
+            $query = $this->con->prepare( $sql );
+            $query->execute();
+            $results = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        }
+    }
+    protected function getQuestionsWithDimension(){
+        if($this->method('POST')){
+            /*$selected_dimen = $_POST['dimensions'];*/
+            $selected_dimen = [1,3, 4];
+            $sql = "SELECT dimension.name as dimension_name, dimension.id as dimension_id, questions.* FROM dimension, questions WHERE dimension.id = questions.dimension AND dimension.id IN(".$selected_dimen.");";
             $query = $this->con->prepare( $sql );
             $query->execute();
             $results = $query->fetchAll(PDO::FETCH_ASSOC);
