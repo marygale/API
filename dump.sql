@@ -1,4 +1,21 @@
 /*Added*/
+CREATE TABLE dimension (
+  id int NOT NULL,
+  name varchar(255) NOT NULL,
+  description text NOT NULL,
+  icon varchar(255) NOT NULL,
+  is_deleted int NOT NULL DEFAULT '0',
+  created date NOT NULL,
+  modified date NOT NULL
+);
+
+INSERT INTO dimension (id, name, description, icon, is_deleted, created, modified) VALUES
+(1, 'Leadership', 'intended to measure leadership skills.', '', 0, '2018-05-22 10:16:35', '2018-05-22 04:57:33'),
+(2, 'Relationship', 'intended to measure relationship with peers.', '', 0, '2018-05-22 10:16:35', '2018-05-22 04:57:33'),
+(2, 'Management', 'intended to measure management skills.', '', 0, '2018-05-22 10:16:35', '2018-05-22 04:57:33'),
+(2, 'Vision', '', '', 0, '2018-05-22 10:16:35', '2018-05-22 04:57:33'),
+(2, 'Knowledge', 'intended to measure knowledge of the person on the given subject', '', 0, '2018-05-22 10:16:35', '2018-05-22 04:57:33');
+
 
 CREATE TABLE standard_questions (
   id int NOT NULL,
@@ -88,8 +105,53 @@ CREATE TABLE questions (
   is_deleted integer NOT NULL
 );
 
-INSERT INTO `questions` (`id`, `survey_id`, `name`, `description`, `type`, `with_options`, `is_calculating`, `include_no_response`, `no_response_option`, `survey_theme_id`, `created`, `modified`, `is_deleted`) VALUES
-(1, 88, 'Is making significant progress towards building-level school improvement.', NULL, 'likert', 1, 0, 0, '', 108, '2018-05-18', '2018-05-18', 'no'),
+CREATE TABLE questions ( //standard_questions
+  id SERIAL PRIMARY KEY,
+  name varchar(5000) NOT NULL,
+  dimension int NOT NULL,
+  with_options integer NOT NULL DEFAULT '1',
+  is_calculating integer NOT NULL DEFAULT '1',
+  created date DEFAULT NULL,
+  modified date DEFAULT NULL,
+  is_deleted integer NOT NULL
+);
+
+
+INSERT INTO questions (id, name, with_options, is_calculating, dimension, created, modified, is_deleted) VALUES
+(26, 'Attend courses/workshops to further developed teaching techniques.', 1, 1, 5, '2018-05-18', '2018-05-18', 0),
+(27, 'Has a clear knowledge and understanding to the subject fields.', 1, 1, 5, '2018-05-18', '2018-05-18', 0),
+(28, 'Knowledge and understanding of the instructional practices in subject fields.', 1, 1, 5, '2018-05-18', '2018-05-18', 0),
+(29, 'Motive student to participate in school activities.', 1, 1, 5, '2018-05-18', '2018-05-18', 0);
+
+
+
+
+
+(1, 'Works to understand their industry and contribute to its evolution through their company work.', 1, 1, 1, '2018-05-18', '2018-05-18', 0),
+(2, 'Communicates the school vision and strategies and helps their team to better understand how they contribute to the achievement of Company goals.', 1, 1, 1, '2018-05-18', '2018-05-18', 0),
+(3, 'Leaders encourage staff to constructively challenge educational practice.', 1, 1, 1, '2018-05-18', '2018-05-18', 0),
+(4, 'School leaders demonstrate an interest in, and an accountability for student learning outcomes.', 1, 1, 1, '2018-05-18', '2018-05-18', 0),
+(5, 'School leaders build relationships based on trust, collegiality and mutual respect.', 1, 1, 1, '2018-05-18', '2018-05-18', 0),
+(6, 'Leaders improve the school through an understanding of the schools strengths and weaknesses.', 1, 1, 1, '2018-05-18', '2018-05-18', 0),
+(7, 'School leaders ensure that all members of the school community are treated fairly.', 1, 1, 1, '2018-05-18', '2018-05-18', 0),
+(8, 'School leaders effectively implement change processes which result in improved student learning outcomes.', 1, 1, 1, '2018-05-18', '2018-05-18', 0),
+(9, 'Leaders ensure that all groups within the school community develop the statement of schools purpose.', 1, 1, 1, '2018-05-18', '2018-05-18', 0),
+(10, 'Staff, parents and students are encouraged to take leadership roles at the school.', 1, 1, 1, '2018-05-18', '2018-05-18', 0);
+(11, 'Treat the student with respect.', 1, 1, 2, '2018-05-18', '2018-05-18', 0),
+(12, 'Help student and work together.', 1, 1, 2, '2018-05-18', '2018-05-18', 0),
+(13, 'Models a respectful behavior.', 1, 1, 2, '2018-05-18', '2018-05-18', 0),
+(14, 'Enthusiastic about teaching and communicate this to students.', 1, 1, 2, '2018-05-18', '2018-05-18', 0),
+(15, 'Has an open door policy.', 1, 1, 2, '2018-05-18', '2018-05-18', 0),
+(16, 'Able to teach all the subjects effectively.', 1, 1, 3, '2018-05-18', '2018-05-18', 0),
+(17, 'Able to implement curriculum and performance standards.', 1, 1, 3, '2018-05-18', '2018-05-18', 0),
+(18, 'Has an effective classroom management.', 1, 1, 3, '2018-05-18', '2018-05-18', 0),
+(19, 'Address the academic needs of students who speak English as a second language.', 1, 1, 3, '2018-05-18', '2018-05-18', 0),
+(20, 'Address the academic needs of students with different ethnic or cultural backgrounds.', 1, 1, 3, '2018-05-18', '2018-05-18', 0),
+(21, 'Very committed on teaching.', 1, 1, 4, '2018-05-18', '2018-05-18', 0),
+(22, 'Think about students as individuals, and not stereotype them as part of some group.', 1, 1, 4, '2018-05-18', '2018-05-18', 0),
+(23, 'Communicates the schools vision and goals to the students.', 1, 1, 4, '2018-05-18', '2018-05-18', 0),
+(24, 'Develops teaching techniques for students success.', 1, 1, 4, '2018-05-18', '2018-05-18', 0),
+(25, 'Attend staff meetings to discuss the vision and mission of the school.', 1, 1, 4, '2018-05-18', '2018-05-18', 0);
 
 
 CREATE TABLE users (
