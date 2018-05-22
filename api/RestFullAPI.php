@@ -92,7 +92,7 @@ class RestFullAPI extends API{
     }
     protected function getQuestionsWithDimension(){
         if($this->method('GET')){
-            $sql = "SELECT dimension.name as dimension_name, questions.* FROM dimension, questions WHERE dimension.id = questions.dimension;";
+            $sql = "SELECT dimension.name as dimension_name, dimension.id as dimension_id, questions.* FROM dimension, questions WHERE dimension.id = questions.dimension;";
             $query = $this->con->prepare( $sql );
             $query->execute();
             $results = $query->fetchAll(PDO::FETCH_ASSOC);
