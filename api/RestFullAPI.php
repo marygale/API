@@ -99,15 +99,15 @@ class RestFullAPI extends API{
             return $results;
         }
     }
-    protected function getQuestionsWithDimension(){return var_dump($_POST["dimension"]);
-        /*if($this->method('POST')){
+    protected function getQuestionsWithDimension(){
+        if($this->method('POST')){
             $selected_dimen = [1,3, 4];
             $sql = "SELECT dimension.name as dimension_name, dimension.id as dimension_id, questions.* FROM dimension, questions WHERE dimension.id = questions.dimension AND dimension.id IN(".$selected_dimen.");";
             $query = $this->con->prepare( $sql );
             $query->execute();
             $results = $query->fetchAll(PDO::FETCH_ASSOC);
             return $results;
-        }*/
+        }
     }
 
     protected function getDimensions(){
@@ -122,6 +122,7 @@ class RestFullAPI extends API{
 
     protected function postSurvey(){
         if($this->method("POST")){
+            var_dump($_POST["dimension"]);die;
             $aResult = ['survey_id' => 0];
             $name = isset($_POST['name']) ? $_POST['name'] : "";
             $description = isset($_POST['description']) ? $_POST['description'] : "";
@@ -139,15 +140,28 @@ class RestFullAPI extends API{
             $stmt->bindParam(':Iid', $user, PDO::PARAM_INT);
             $bSave = $stmt->execute() > 0 ? TRUE : FALSE;
             if($bSave){
-               /* $aResult['status'] = 'ok';
-                $aResult['msg'] = 'New record added';*/
+               $dimension = isset($_POST["dimension"]) ? $_POST["dimension"] : '';
+               $sql = "INSERT into survey_dimension (name, survey_id, dimension_id) VALUES (:Sname, :Isid, :Idid);";
+               $stmt->bindParam(':Sname', $name, PDO::PARAM_STR);
+               $stmt = $this->con->prepare( $sql );
                 $aResult['survey_id'] = $this->con->lastInsertId();
+
             }
 
             return $aResult;
 
 
 
+        }
+    }
+
+    protected function getSurveyById(){
+        if($this->method('GET')){
+            $sql = "Select * FROM surveys WHERE ";
+            $query = $this->con->prepare( $sql );
+            $query->execute();
+            $results = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
         }
     }
 

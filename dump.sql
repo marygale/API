@@ -1,4 +1,12 @@
 /*Added*/
+
+CREATE TABLE survey_dimension (
+  id int NOT NULL,
+  name varchar(255) NOT NULL,
+  survey_id int NOT NULL,
+  dimension_id int NOT NULL
+);
+
 CREATE TABLE dimension (
   id int NOT NULL,
   name varchar(255) NOT NULL,
@@ -118,15 +126,6 @@ CREATE TABLE questions ( //standard_questions
 
 
 INSERT INTO questions (id, name, with_options, is_calculating, dimension, created, modified, is_deleted) VALUES
-(26, 'Attend courses/workshops to further developed teaching techniques.', 1, 1, 5, '2018-05-18', '2018-05-18', 0),
-(27, 'Has a clear knowledge and understanding to the subject fields.', 1, 1, 5, '2018-05-18', '2018-05-18', 0),
-(28, 'Knowledge and understanding of the instructional practices in subject fields.', 1, 1, 5, '2018-05-18', '2018-05-18', 0),
-(29, 'Motive student to participate in school activities.', 1, 1, 5, '2018-05-18', '2018-05-18', 0);
-
-
-
-
-
 (1, 'Works to understand their industry and contribute to its evolution through their company work.', 1, 1, 1, '2018-05-18', '2018-05-18', 0),
 (2, 'Communicates the school vision and strategies and helps their team to better understand how they contribute to the achievement of Company goals.', 1, 1, 1, '2018-05-18', '2018-05-18', 0),
 (3, 'Leaders encourage staff to constructively challenge educational practice.', 1, 1, 1, '2018-05-18', '2018-05-18', 0),
@@ -151,7 +150,12 @@ INSERT INTO questions (id, name, with_options, is_calculating, dimension, create
 (22, 'Think about students as individuals, and not stereotype them as part of some group.', 1, 1, 4, '2018-05-18', '2018-05-18', 0),
 (23, 'Communicates the schools vision and goals to the students.', 1, 1, 4, '2018-05-18', '2018-05-18', 0),
 (24, 'Develops teaching techniques for students success.', 1, 1, 4, '2018-05-18', '2018-05-18', 0),
-(25, 'Attend staff meetings to discuss the vision and mission of the school.', 1, 1, 4, '2018-05-18', '2018-05-18', 0);
+(25, 'Attend staff meetings to discuss the vision and mission of the school.', 1, 1, 4, '2018-05-18', '2018-05-18', 0)
+(26, 'Attend courses/workshops to further developed teaching techniques.', 1, 1, 5, '2018-05-18', '2018-05-18', 0),
+(27, 'Has a clear knowledge and understanding to the subject fields.', 1, 1, 5, '2018-05-18', '2018-05-18', 0),
+(28, 'Knowledge and understanding of the instructional practices in subject fields.', 1, 1, 5, '2018-05-18', '2018-05-18', 0),
+(29, 'Motive student to participate in school activities.', 1, 1, 5, '2018-05-18', '2018-05-18', 0);
+
 
 
 CREATE TABLE users (
