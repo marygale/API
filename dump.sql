@@ -20,9 +20,9 @@ CREATE TABLE dimension (
 INSERT INTO dimension (id, name, description, icon, is_deleted, created, modified) VALUES
 (1, 'Leadership', 'intended to measure leadership skills.', '', 0, '2018-05-22 10:16:35', '2018-05-22 04:57:33'),
 (2, 'Relationship', 'intended to measure relationship with peers.', '', 0, '2018-05-22 10:16:35', '2018-05-22 04:57:33'),
-(2, 'Management', 'intended to measure management skills.', '', 0, '2018-05-22 10:16:35', '2018-05-22 04:57:33'),
-(2, 'Vision', '', '', 0, '2018-05-22 10:16:35', '2018-05-22 04:57:33'),
-(2, 'Knowledge', 'intended to measure knowledge of the person on the given subject', '', 0, '2018-05-22 10:16:35', '2018-05-22 04:57:33');
+(3, 'Management', 'intended to measure management skills.', '', 0, '2018-05-22 10:16:35', '2018-05-22 04:57:33'),
+(4, 'Vision', '', '', 0, '2018-05-22 10:16:35', '2018-05-22 04:57:33'),
+(5, 'Knowledge', 'intended to measure knowledge of the person on the given subject', '', 0, '2018-05-22 10:16:35', '2018-05-22 04:57:33');
 
 
 CREATE TABLE standard_questions (

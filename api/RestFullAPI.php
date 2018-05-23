@@ -128,8 +128,6 @@ class RestFullAPI extends API{
             $password = isset($_POST['password']) ? $_POST['password'] : "";
             $emailOn = isset($_POST['emailOn']) ? $_POST['emailOn'] : "";
             $emailOff = isset($_POST['emailOff']) ? $_POST['emailOff'] : "";
-            $groups = isset($_POST['groups']) ? $_POST['groups'] : [];
-            $dimensions = isset($_POST['dimensions']) ? $_POST['dimensions'] : [];var_dump($dimensions);die;
             $verification = ($emailOn) ? 1 : 0;
             $user = isset($_POST['user_id']) ? $_POST['user_id'] : 1;
             $sql = "INSERT into surveys (name, description, password, email_verification_on, user_id, created, modified) VALUES (:Sname, :Sdesc, :Spass, :Ion, :Iid, NOW(), NOW())";
@@ -141,17 +139,30 @@ class RestFullAPI extends API{
             $stmt->bindParam(':Iid', $user, PDO::PARAM_INT);
             $bSave = $stmt->execute() > 0 ? TRUE : FALSE;
             if($bSave){
-               $dimension = isset($_POST["dimension"]) ? $_POST["dimension"] : '';
-               $sql = "INSERT into survey_dimension (name, survey_id, dimension_id) VALUES (:Sname, :Isid, :Idid);";
-               $stmt->bindParam(':Sname', $name, PDO::PARAM_STR);
-               $stmt = $this->con->prepare( $sql );
-                $aResult['survey_id'] = $this->con->lastInsertId();
-
+               $survey_id = $this->con->lastInsertId();
+               $dimensions = isset($_POST['dimensions']) ? $_POST['dimensions'] : [];
+               $dim_id = "";
+               foreach ($dimensions as $dim){
+                   if($dim == "Leadership") $dim_id = 1;
+                   if($dim == "Relationship") $dim_id = 2;
+                   if($dim == "Management") $dim_id = 3;
+                   if($dim == "Vision") $dim_id = 4;
+                   if($dim == "Knowledge") $dim_id = 5;
+                   $sql = "INSERT into survey_dimension (name, survey_id, dimension_id) VALUES (?, ?, ?);";
+                   $stmt = $this->con->prepare( $sql );
+                   $stmt->bind_param("sii", $dim, $survey_id, $dim_id);
+                   $stmt->execute();
+               }
+                $groups = isset($_POST['groups']) ? $_POST['groups'] : [];
+                foreach ($groups as $group){
+                    $sql = "INSERT into groups (survey_id, name) VALUES (?, ?);";
+                    $stmt = $this->con->prepare( $sql );
+                    $stmt->bind_param("is", $survey_id, $group);
+                    $stmt->execute();
+                }
+                $aResult['survey_id'] = $survey_id;
             }
-
             return $aResult;
-
-
 
         }
     }
