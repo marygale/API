@@ -120,6 +120,11 @@ class RestFullAPI extends API{
         }
     }
 
+    protected function postSurvey(){
+        if($this->method("POST")){
+            var_dump($_POST);die;
+        }
+    }
 
     protected function test(){
         return 'gale test';
