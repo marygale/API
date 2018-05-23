@@ -122,7 +122,7 @@ class RestFullAPI extends API{
 
     protected function postSurvey(){
         if($this->method("POST")){
-            $aResult = ['status' => 'failed'];
+            $aResult = ['survey_id' => 0];
             $name = isset($_POST['name']) ? $_POST['name'] : "";
             $description = isset($_POST['description']) ? $_POST['description'] : "";
             $password = isset($_POST['password']) ? $_POST['password'] : "";
@@ -139,8 +139,8 @@ class RestFullAPI extends API{
             $stmt->bindParam(':Iid', $user, PDO::PARAM_INT);
             $bSave = $stmt->execute() > 0 ? TRUE : FALSE;
             if($bSave){
-                $aResult['status'] = 'ok';
-                $aResult['msg'] = 'New record added';
+               /* $aResult['status'] = 'ok';
+                $aResult['msg'] = 'New record added';*/
                 $aResult['survey_id'] = $this->con->lastInsertId();
             }
 
