@@ -122,42 +122,37 @@ class RestFullAPI extends API{
 
     protected function postSurvey(){
         if($this->method("POST")){
-            var_dump($_POST);die;
+            $aResult = ['status' => 'failed'];
+            $name = isset($_POST['name']) ? $_POST['name'] : "";
+            $description = isset($_POST['description']) ? $_POST['description'] : "";
+            $password = isset($_POST['password']) ? $_POST['password'] : "";
+            $emailOn = isset($_POST['emailOn']) ? $_POST['emailOn'] : "";
+            $emailOff = isset($_POST['emailOff']) ? $_POST['emailOff'] : "";
+            $verification = ($emailOn) ? 1 : 0;
+            $user = isset($_POST['user_id']) ? $_POST['user_id'] : 1;
+            $sql = "INSERT into surveys (name, description, password, email_verification_on, user_id, created, modified) VALUES (:Sname, :Sdesc, :Spass, :Ion, :Iid, NOW(), NOW())";
+            $stmt = $this->con->prepare( $sql );
+            $stmt->bindParam(':Sname', $name, PDO::PARAM_STR);
+            $stmt->bindParam(':Sdesc', $description, PDO::PARAM_STR);
+            $stmt->bindParam(':Spass', $password, PDO::PARAM_STR);
+            $stmt->bindParam(':Ion', $verification, PDO::PARAM_INT);
+            $stmt->bindParam(':Iid', $user, PDO::PARAM_INT);
+            $bSave = $stmt->execute() > 0 ? TRUE : FALSE;
+            if($bSave){
+                $aResult['status'] = 'ok';
+                $aResult['msg'] = 'New record added';
+                $aResult['survey_id'] = $this->con->lastInsertId();
+            }
+
+            return $aResult;
+
+
+
         }
     }
 
     protected function test(){
         return 'gale test';
-    }
-
-    protected function quiz()
-    {
-        return [
-            [
-                'quiz_id' => 1,
-                'quiz_title' => "Quiz Title #1",
-                'quiz_desc' => 'Quiz Desc',
-                'quiz_protected' => 'true'
-            ],
-            [
-                'quiz_id' => 2,
-                'quiz_title' => "Quiz Title #2",
-                'quiz_desc' => 'Quiz Desc',
-                'quiz_protected' => 'false'
-            ],
-            [
-                'quiz_id' => 3,
-                'quiz_title' => "Quiz Title #3",
-                'quiz_desc' => 'Quiz Desc',
-                'quiz_protected' => 'false'
-            ],
-            [
-                'quiz_id' => 4,
-                'quiz_title' => "Quiz Title #4",
-                'quiz_desc' => 'Quiz Desc',
-                'quiz_protected' => 'true'
-            ]
-        ];
     }
 
 }
