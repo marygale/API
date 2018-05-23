@@ -122,7 +122,7 @@ class RestFullAPI extends API{
 
     protected function postSurvey(){
         if($this->method("POST")){
-            var_dump($_POST["dimension"]);die;
+            var_dump($_POST);die;
             $aResult = ['survey_id' => 0];
             $name = isset($_POST['name']) ? $_POST['name'] : "";
             $description = isset($_POST['description']) ? $_POST['description'] : "";
