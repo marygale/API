@@ -122,13 +122,14 @@ class RestFullAPI extends API{
 
     protected function postSurvey(){
         if($this->method("POST")){
-            var_dump($_POST);die;
             $aResult = ['survey_id' => 0];
             $name = isset($_POST['name']) ? $_POST['name'] : "";
             $description = isset($_POST['description']) ? $_POST['description'] : "";
             $password = isset($_POST['password']) ? $_POST['password'] : "";
             $emailOn = isset($_POST['emailOn']) ? $_POST['emailOn'] : "";
             $emailOff = isset($_POST['emailOff']) ? $_POST['emailOff'] : "";
+            $groups = isset($_POST['groups']) ? $_POST['groups'] : [];
+            $dimensions = isset($_POST['dimensions']) ? $_POST['dimensions'] : [];var_dump($dimensions);die;
             $verification = ($emailOn) ? 1 : 0;
             $user = isset($_POST['user_id']) ? $_POST['user_id'] : 1;
             $sql = "INSERT into surveys (name, description, password, email_verification_on, user_id, created, modified) VALUES (:Sname, :Sdesc, :Spass, :Ion, :Iid, NOW(), NOW())";
