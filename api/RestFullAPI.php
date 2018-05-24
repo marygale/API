@@ -131,7 +131,7 @@ class RestFullAPI extends API{
 
     protected function postSurvey(){
         if($this->method("POST")){
-
+            $survey_id = "";
             $aResult = ['survey_id' => 0];
             $name = isset($_POST['name']) ? $_POST['name'] : "";
             $description = isset($_POST['description']) ? $_POST['description'] : "";
@@ -177,7 +177,8 @@ class RestFullAPI extends API{
                 }
                 $aResult['survey_id'] = $survey_id;
             }
-            return $aResult;
+            /*return $aResult;*/
+            return $survey_id;
 
         }
     }
