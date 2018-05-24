@@ -110,6 +110,12 @@ class RestFullAPI extends API{
         }
     }
 
+    /** PASS PARAM is SURVEY_ID */
+    protected function getQuestionsBySurvey(){
+        if($this->method('GET')){
+            var_dump($_GET);die;
+        }
+    }
     protected function getDimensions(){
         if($this->method('GET')){
             $sql = "Select * FROM dimension";
