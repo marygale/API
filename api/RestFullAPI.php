@@ -122,6 +122,25 @@ class RestFullAPI extends API{
 
     protected function postSurvey(){
         if($this->method("POST")){
+
+            $dimensions = isset($_POST['dimensions']) ? $_POST['dimensions'] : [];
+            $dim_id = "";
+            foreach ($dimensions as $dim){
+                if($dim == "Leadership") $dim_id = 1;
+                if($dim == "Relationship") $dim_id = 2;
+                if($dim == "Management") $dim_id = 3;
+                if($dim == "Vision") $dim_id = 4;
+                if($dim == "Knowledge") $dim_id = 5;
+                $survey_id = 2;
+                /*$sql = "INSERT into survey_dimension (name, survey_id, dimension_id) VALUES (?, ?, ?);";*/
+                $sql = "INSERT into survey_dimension (name, survey_id, dimension_id) VALUES ('.$dim.', $dim_id, $dim_id);";
+                echo $sql; echo "<br/>";
+                /*$stmt = $this->con->prepare( $sql );
+                $stmt->bind_param("sii", $dim, $survey_id, $dim_id);
+                $stmt->execute();*/
+            }
+
+            die;
             $aResult = ['survey_id' => 0];
             $name = isset($_POST['name']) ? $_POST['name'] : "";
             $description = isset($_POST['description']) ? $_POST['description'] : "";
