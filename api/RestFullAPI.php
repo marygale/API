@@ -115,18 +115,22 @@ class RestFullAPI extends API{
         if($this->method('POST')){
             $id = isset($_POST['survey_id']) ? $_POST['survey_id'] : 0;
             $id = str_replace("\"", "", $id);
-            $sql = "Select * FROM surveys WHERE id = $id";
-            /*$query = $this->con->prepare( $sql );
+            $sql = "Select dimension_id FROM survey_dimension WHERE survey_id = $id";
+            $query = $this->con->prepare( $sql );
             $query->execute();
-            $results = $query->fetchAll(PDO::FETCH_ASSOC);
-            return $results;*/
-            return $sql;
+            $dimension = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $this->getQuestionsByDimension($dimension);
 
-            /*
-            $iId = json_decode($ids);
-            return $iId["survey_id"];*/
         }
     }
+    protected function getQuestionsByDimension($dimension = []){
+        $sql = "SELECT dimension.name as dimension_name, dimension.id as dimension_id, questions.* FROM dimension, questions WHERE dimension.id = questions.dimension AND dimension.id IN(".$dimension.");";
+        $query = $this->con->prepare( $sql );
+        $query->execute();
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $results;
+    }
+
     protected function getDimensions(){
         if($this->method('GET')){
             $sql = "Select * FROM dimension";
