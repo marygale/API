@@ -159,7 +159,7 @@ class RestFullAPI extends API{
                 foreach ($groups as $group){
                     if($group == "Teachers") $group_id = 1;
                     if($group == "Support Staff") $group_id = 2;
-                    if($group == "Building &amp; District Admin") $group_id = 3;
+                    if($group == "Building and District Admin") $group_id = 3;
                     if($group == "Parent") $group_id = 4;
                     $sql = "INSERT into survey_groups (survey_id, name, group_id) VALUES ($survey_id, '$group', $group_id);";
                     $stmt = $this->con->prepare( $sql );
