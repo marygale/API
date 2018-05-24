@@ -161,8 +161,8 @@ class RestFullAPI extends API{
                     if($group == "Support Staff") $group_id = 2;
                     if($group == "Building and District Admin") $group_id = 3;
                     if($group == "Parent") $group_id = 4;
-                    $sql = "INSERT into survey_groups (survey_id, name, group_id) VALUES ($survey_id, '$group', $group_id);";
-                    $stmt = $this->con->prepare( $sql );
+                    $sql_grp = "INSERT into survey_groups (survey_id, name, group_id) VALUES ($survey_id, '$group', $group_id);";
+                    $stmt = $this->con->prepare( $sql_grp );
                     /*$stmt->bind_param("is", $survey_id, $group);*/
                     $stmt->execute();
                 }
