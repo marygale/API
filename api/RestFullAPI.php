@@ -114,7 +114,14 @@ class RestFullAPI extends API{
     protected function getQuestionsBySurvey(){
         if($this->method('POST')){
             $id = isset($_POST['survey_id']) ? (int) $_POST['survey_id'] : 0;
-            return $id;
+            $id = str_replace("\"", "", $id);
+            $sql = "Select * FROM surveys WHERE id = $id";
+            /*$query = $this->con->prepare( $sql );
+            $query->execute();
+            $results = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $results;*/
+            return $sql;
+
             /*
             $iId = json_decode($ids);
             return $iId["survey_id"];*/
