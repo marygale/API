@@ -113,7 +113,9 @@ class RestFullAPI extends API{
     /** PASS PARAM is SURVEY_ID */
     protected function getQuestionsBySurvey(){
         if($this->method('POST')){
-            return var_dump($_POST);
+            $ids = isset($_POST['survey_id']) ? $_POST['survey_id'] : 0;
+            $iId = json_decode($ids);
+            return $iId["survey_id"];
         }
     }
     protected function getDimensions(){
