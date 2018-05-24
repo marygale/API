@@ -128,11 +128,11 @@ class RestFullAPI extends API{
         foreach ($dimensions as $key=>$val){
             array_push($dim, $key);
         }
-        $dim=array_map('intval', explode(',', $dim));
-        $dim = implode("','",$dim);
+        $ar =array_map('intval', explode(',', $dim));return var_dump($ar);
+        /*$dim = implode("','",$dim);
         $sql = "SELECT dimension.name as dimension_name, dimension.id as dimension_id, questions.* FROM dimension, questions WHERE dimension.id = questions.dimension AND dimension.id IN(".$dim.");";
         return $sql;
-        /*$$query = $this->con->prepare( $sql );
+        $$query = $this->con->prepare( $sql );
         $query->execute();
         $results = $query->fetchAll(PDO::FETCH_ASSOC);*/
 
