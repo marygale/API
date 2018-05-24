@@ -127,9 +127,9 @@ class RestFullAPI extends API{
         $dim = [];
         foreach ($dimensions as $key=>$val){
             array_push($dim, $key);
-        }
-        $ar =array_map('intval', explode(',', $dim));return var_dump($ar);
-        /*$dim = implode("','",$dim);
+        }return var_dump($dim);
+        /*$ar =array_map('intval', explode(',', $dim));
+        $dim = implode("','",$dim);
         $sql = "SELECT dimension.name as dimension_name, dimension.id as dimension_id, questions.* FROM dimension, questions WHERE dimension.id = questions.dimension AND dimension.id IN(".$dim.");";
         return $sql;
         $$query = $this->con->prepare( $sql );
