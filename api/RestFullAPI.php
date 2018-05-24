@@ -157,7 +157,11 @@ class RestFullAPI extends API{
                }
                 $groups = isset($_POST['groups']) ? $_POST['groups'] : [];
                 foreach ($groups as $group){
-                    $sql = "INSERT into groups (survey_id, name) VALUES ($survey_id, '$group');";
+                    if($group == "Teachers") $group_id = 1;
+                    if($group == "Support Staff") $group_id = 2;
+                    if($group == "Building &amp; District Admin") $group_id = 3;
+                    if($group == "Parent") $group_id = 4;
+                    $sql = "INSERT into survey_groups (survey_id, name, group_id) VALUES ($survey_id, '$group', $group_id);";
                     $stmt = $this->con->prepare( $sql );
                     /*$stmt->bind_param("is", $survey_id, $group);*/
                     $stmt->execute();

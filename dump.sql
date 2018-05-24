@@ -1,10 +1,17 @@
 /*Added*/
 
 CREATE TABLE survey_dimension (
-  id int NOT NULL,
+  id SERIAL PRIMARY KEY,
   name varchar(255) NOT NULL,
   survey_id int NOT NULL,
   dimension_id int NOT NULL
+);
+
+CREATE TABLE survey_groups (
+  id serial PRIMARY KEY,
+  name varchar(255) NOT NULL,
+  survey_id integer NOT NULL,
+  group_id integer NOT NULL
 );
 
 CREATE TABLE dimension (
