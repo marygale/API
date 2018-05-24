@@ -126,7 +126,7 @@ class RestFullAPI extends API{
     public function getQuestionsByDimension($dimensions){
         $dim = [];
         foreach ($dimensions as $key=>$val){
-            $sql = "SELECT dimension.name as dimension_name, dimension.id as dimension_id, questions.* FROM dimension, questions WHERE dimension.id = questions.dimension AND dimension.id ".$val.";";
+            $sql = "SELECT dimension.name as dimension_name, dimension.id as dimension_id, questions.* FROM dimension, questions WHERE dimension.id = questions.dimension AND dimension.id ".$dimensions[$key].";";
             return $sql;
             /*array_push($dim, $val);*/
         }/*return var_dump($dim);*/
