@@ -126,7 +126,8 @@ class RestFullAPI extends API{
     public function getQuestionsByDimension($dimensions){
         $dim = [];
         foreach ($dimensions as $key=>$val){
-            array_push($dim, $val);
+            echo $val;
+            /*array_push($dim, $val);*/
         }return var_dump($dim);
         /*$ar =array_map('intval', explode(',', $dim));
         $dim = implode("','",$dim);
