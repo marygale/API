@@ -123,12 +123,13 @@ class RestFullAPI extends API{
 
         }
     }
-    protected function getQuestionsByDimension($dimension = []){
+    public function getQuestionsByDimension($dimension = []){
         $sql = "SELECT dimension.name as dimension_name, dimension.id as dimension_id, questions.* FROM dimension, questions WHERE dimension.id = questions.dimension AND dimension.id IN(".$dimension.");";
+        return $sql;
         $query = $this->con->prepare( $sql );
         $query->execute();
         $results = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $sql;
+
     }
 
     protected function getDimensions(){
