@@ -119,7 +119,12 @@ class RestFullAPI extends API{
             $query = $this->con->prepare( $sql );
             $query->execute();
             $dimensions = $query->fetchAll(PDO::FETCH_ASSOC);
-            return $this->getQuestionsByDimension($dimensions);
+            foreach ($dimensions as $engz){
+                $sql = "SELECT GALE dimension.name as dimension_name, dimension.id as dimension_id, questions.* FROM dimension, questions WHERE dimension.id = questions.dimension AND dimension.id ".$engz.";";
+                /*array_push($dim, $val);*/
+                echo $sql;
+            }
+            /*return $this->getQuestionsByDimension($dimensions);*/
 
         }
     }
