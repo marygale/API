@@ -8,3 +8,5 @@ define( "DB_USERNAME", $dbopts["user"] );//fccczroxijlspx
 define( "DB_PASSWORD", $dbopts["pass"]);//b5d3146f1ff4b565a3c72f2ec3aa7dfade6aae3b4819d597b9e863b540e93c96
 //dbname d9qqrpvoldsupj
 //{ ["scheme"]=> string(8) "postgres" ["host"]=> string(38) "ec2-54-83-1-94.compute-1.amazonaws.com" ["port"]=> int(5432) ["user"]=> string(14) "fccczroxijlspx" ["pass"]=> string(64) "b5d3146f1ff4b565a3c72f2ec3aa7dfade6aae3b4819d597b9e863b540e93c96" ["path"]=> string(15) "/d9qqrpvoldsupj" }*/
+
+//{"status":"failed","sql":"Select roles.name as role_name, users.* FROM roles, users WHERE users.email_address = 'ladyemjay043@gmail.com' AND users.password = 'c0185c4e4ea6c6603da1d82aa9ea27f2';"}

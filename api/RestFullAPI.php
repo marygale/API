@@ -50,9 +50,7 @@ class RestFullAPI extends API{
             $lname = isset($_POST['last_name']) ? $_POST['last_name'] : "";
             $email = isset($_POST['email_address']) ? $_POST['email_address'] : "";
             $address = isset($_POST['address']) ? $_POST['address'] : "";
-            $stored_hash = '1a52e17fa899cf40fb04cfc42e6352f1';
-            $salt = 'XyZzy12*_';
-            $password = hash('md5',$salt . htmlentities($_POST['password']));
+            $password = isset($_POST['password']) ? md5(htmlentities($_POST['password'])) : "";
             $sql = "INSERT into users (first_name,last_name,address,email_address, password) VALUES (:Sfname, :Slname, :Saddress, :Semail, :Spass)";
             $stmt = $this->con->prepare( $sql );
             $stmt->bindParam(':Sfname', $fname, PDO::PARAM_STR);
@@ -220,8 +218,7 @@ class RestFullAPI extends API{
             $aResult['status'] = 'failed';
             $email = isset($_POST['email']) ? $_POST['email'] : "";
             $pass = isset($_POST['password']) ? $_POST['password'] : "";
-            $salt = 'XyZzy12*_';
-            $hashPass = hash('md5',$salt . htmlentities($pass));
+            $hashPass = md5(htmlentities($pass));
             $sql = "Select roles.name as role_name, users.* FROM roles, users WHERE users.email_address = '$email' AND users.password = '$hashPass';";
             $query = $this->con->prepare( $sql );
             $query->execute();
@@ -233,7 +230,7 @@ class RestFullAPI extends API{
             $aResult['sql'] = $sql;
             return $aResult;//4b42201ceb7acca0295fdb0d8b7cac8a -gale
         }
-    }
+    }//d41d8cd98f00b204e9800998ecf8427e gale
 
     protected function getHash(){
         if($this->method('GET')){
