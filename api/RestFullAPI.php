@@ -215,6 +215,20 @@ class RestFullAPI extends API{
         }
     }
 
+    protected function postLogin(){
+        if($this->method('POST')){
+            $email = isset($_POST['email']) ? $_POST['email'] : "";
+            $pass = isset($_POST['password']) ? $_POST['password'] : "";
+            $salt = 'XyZzy12*_';
+            $hashPass = hash('md5',$salt . htmlentities($pass));
+            $sql = "Select roles.name as role_name, users.* FROM roles, users WHERE users.email_address = '$email' AND roles.role_id = users.role_id;";
+            $query = $this->con->prepare( $sql );
+            $query->execute();
+            $results = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        }
+    }
+
     protected function test(){
         return 'gale test';
     }
