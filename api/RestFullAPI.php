@@ -217,6 +217,7 @@ class RestFullAPI extends API{
 
     protected function postLogin(){
         if($this->method('POST')){
+            $aResult['status'] = 'failed';
             $email = isset($_POST['email']) ? $_POST['email'] : "";
             $pass = isset($_POST['password']) ? $_POST['password'] : "";
             $salt = 'XyZzy12*_';
@@ -225,10 +226,21 @@ class RestFullAPI extends API{
             $query = $this->con->prepare( $sql );
             $query->execute();
             $results = $query->fetchAll(PDO::FETCH_ASSOC);
+            if(count($results) > 0){
+                $aResult['status'] = 'ok';
+                $aResult['result'] = $results;
+            }
             return $results;
         }
     }
 
+    protected function getHash(){
+        if($this->method('GET')){
+            $pass = isset($_POST['password']) ? $_POST['password'] : "";
+            $salt = 'XyZzy12*_';
+            return hash('md5',$salt . htmlentities($pass));
+        }
+    }
     protected function test(){
         return 'gale test';
     }
