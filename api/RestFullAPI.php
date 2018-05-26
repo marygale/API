@@ -238,8 +238,9 @@ class RestFullAPI extends API{
     protected function getHash(){
         if($this->method('GET')){
             $pass = isset($_POST['password']) ? $_POST['password'] : "";
-            $salt = 'XyZzy12*_';
-            return hash('md5',$salt . htmlentities($pass));
+            /*$salt = 'XyZzy12*_';*/
+            return md5(htmlentities($pass));
+            /*return hash('md5',$salt . htmlentities($pass));*/
         }
     }
     protected function test(){
