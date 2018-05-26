@@ -207,6 +207,14 @@ class RestFullAPI extends API{
         }
     }
 
+    protected function postSurveyQuestions(){
+        if($this->method('POST')){
+            $survey_id = isset($_POST['survey_id']) ? $_POST['survey_id'] : '' ;
+            $name = isset($_POST['name']) ? $_POST['name'] : '';
+
+        }
+    }
+
     protected function test(){
         return 'gale test';
     }

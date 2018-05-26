@@ -1,5 +1,18 @@
 /*Added*/
 
+CREATE TABLE survey_questions (
+  id SERIAL PRIMARY KEY,
+  survey_id int NOT NULL,
+  name varchar(5000) NOT NULL,
+  description varchar(255) DEFAULT NULL,
+  type varchar(50) DEFAULT NULL,
+  with_options int NOT NULL DEFAULT '1',
+  is_calculating int NOT NULL DEFAULT '1',
+  created date DEFAULT NULL,
+  modified date DEFAULT NULL,
+  is_deleted VARCHAR(10) NOT NULL DEFAULT 'no'
+);
+
 CREATE TABLE survey_dimension (
   id SERIAL PRIMARY KEY,
   name varchar(255) NOT NULL,
