@@ -222,7 +222,7 @@ class RestFullAPI extends API{
             $pass = isset($_POST['password']) ? $_POST['password'] : "";
             $salt = 'XyZzy12*_';
             $hashPass = hash('md5',$salt . htmlentities($pass));
-            $sql = "Select roles.name as role_name, users.* FROM roles, users WHERE users.email_address = '$email' AND roles.role_id = users.role_id;";
+            $sql = "Select roles.name as role_name, users.* FROM roles, users WHERE users.email_address = '$email' AND users.password = '$pass';";
             $query = $this->con->prepare( $sql );
             $query->execute();
             $results = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -230,7 +230,8 @@ class RestFullAPI extends API{
                 $aResult['status'] = 'ok';
                 $aResult['result'] = $results;
             }
-            return $results;
+            $aResult['sql'] = $sql;
+            return $aResult;
         }
     }
 
