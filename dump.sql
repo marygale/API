@@ -3,6 +3,7 @@
 CREATE TABLE survey_questions (
   id SERIAL PRIMARY KEY,
   survey_id int NOT NULL,
+  question_id int NOT NULL,
   name varchar(5000) NOT NULL,
   description varchar(255) DEFAULT NULL,
   type varchar(50) DEFAULT NULL,
