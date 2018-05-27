@@ -129,7 +129,7 @@ class RestFullAPI extends API{
         $query = $this->con->prepare( $sql );
         $query->execute();
         $results = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $results;
+        return $sql;
     }
 
     protected function getDimensions(){
