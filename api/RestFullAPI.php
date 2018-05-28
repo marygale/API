@@ -208,7 +208,7 @@ class RestFullAPI extends API{
 
     protected function postSurveyQuestions(){
         if($this->method('POST')){
-            $aResult = false;
+            $bResult = false;
             $aRequest = isset($_POST['questions']) ? $_POST['questions'] : [];
             foreach ($aRequest as $rq){
                 $data = str_replace("{", "", $rq);
@@ -221,12 +221,10 @@ class RestFullAPI extends API{
                 $qId = isset($arData[2]) ? $arData[2] : null;
                 $name = isset($arData[1]) ? $arData[1] : "";
                 $sql = "INSERT INTO survey_questions (survey_id, question_id, name) VALUES ($surveyId, $qId, '$name');";
-               /* $stmt = $this->con->prepare( $sql);
+                $stmt = $this->con->prepare( $sql);
                 $bResult = $stmt->execute();
-                if($bResult) $aResult = true;*/
-                return $sql;
             }
-
+            return $bResult;
        }
     }
 
