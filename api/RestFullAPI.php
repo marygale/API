@@ -214,12 +214,16 @@ class RestFullAPI extends API{
                 $rq = str_replace("{", "", $rq);
                 $rq = str_replace("}", "", $rq);
                 $arData = explode("=", $rq);
-                $sql = "INSERT INTO survey_questions (survey_id, question_id, name) VALUES ($arData[1], '$arData[3]', $arData[2]);";
+                $surveyId = isset($arData[1]) ? $arData[1] : null;
+                $qId = isset($arData[3]) ? $arData[3] : null;
+                $name = isset($arData[2]) ? $arData[2] : "";
+                $sql = "INSERT INTO survey_questions (survey_id, question_id, name) VALUES ($surveyId, $qId, '$name');";
                 $stmt = $this->con->prepare( $sql);
                 $bResult = $stmt->execute();
                 if($bResult) $aResult = true;
+                return $sql;
             }
-            return $sql;
+
        }
     }
 
