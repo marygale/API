@@ -209,11 +209,11 @@ class RestFullAPI extends API{
     protected function postSurveyQuestions(){
         if($this->method('POST')){
             $aRequest = isset($_POST['questions']) ? $_POST['questions'] : [];
-            return var_dump($aRequest);
-            /*foreach ($aRequest as $rq){
-                return $rq;
+           /* return var_dump($aRequest);*/
+            foreach ($aRequest as $rq){
+                return var_dump($rq);
             }
-            return var_dump($_POST);*/
+
             /*foreach ($_POST as $k=>$v){
                 echo "Field ".htmlspecialchars($k)." is ".htmlspecialchars($v)."<br>";
 
