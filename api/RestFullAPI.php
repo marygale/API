@@ -208,10 +208,13 @@ class RestFullAPI extends API{
 
     protected function postSurveyQuestions(){
         if($this->method('POST')){
-            $arData = (count($_POST) > 0) ? $_POST : [];
-            foreach ($arData as $k=>$v){
-                $sql = "INSERT INTO $k == $v";
+            /*$arData = (count($_POST) > 0) ? $_POST : [];*/
+            foreach ($_POST as $k=>$v){
+                /*$sql = "INSERT INTO $k == $v";
                 echo $sql."\n";
+                */
+                echo "Field ".htmlspecialchars($k)." is ".htmlspecialchars($v)."<br>";
+
             }
             return var_dump($_POST);
             /*$survey_id = isset($_POST['survey_id']) ? $_POST['survey_id'] : '' ;
