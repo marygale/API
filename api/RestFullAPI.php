@@ -218,9 +218,9 @@ class RestFullAPI extends API{
                 $qId = isset($arData[3]) ? $arData[3] : null;
                 $name = isset($arData[2]) ? $arData[2] : "";
                 $sql = "INSERT INTO survey_questions (survey_id, question_id, name) VALUES ($surveyId, $qId, '$name');";
-                $stmt = $this->con->prepare( $sql);
+               /* $stmt = $this->con->prepare( $sql);
                 $bResult = $stmt->execute();
-                if($bResult) $aResult = true;
+                if($bResult) $aResult = true;*/
                 return $sql;
             }
 
