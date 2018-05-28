@@ -208,7 +208,7 @@ class RestFullAPI extends API{
 
     protected function postSurveyQuestions(){
         if($this->method('POST')){
-            $aRequest = isset($_POST['questions']) ? htmlentities($_POST['questions']) : [];
+            $aRequest = isset($_POST['questions']) ? $_POST['questions'] : [];
             return var_dump($aRequest);
             /*foreach ($aRequest as $rq){
                 return $rq;
