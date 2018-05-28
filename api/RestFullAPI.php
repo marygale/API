@@ -117,14 +117,15 @@ class RestFullAPI extends API{
             $query = $this->con->prepare( $sql );
             $query->execute();
             $dimensions = $query->fetchAll(PDO::FETCH_COLUMN);
-            return $this->getQuestionsByDimension($dimensions);
+            return $this->getQuestionsByDimension($dimensions, $id);
 
         }
     }
-    public function getQuestionsByDimension($dimensions){
+    public function getQuestionsByDimension($dimensions, $id){
         $dim = implode("','",$dimensions);
         $dim = str_replace("'", "", $dim);
-        $sql = "SELECT dimension.name as dimension_name, dimension.id as dimension_id, questions.* FROM dimension, questions WHERE dimension.id = questions.dimension AND dimension.id IN(".$dim.");";
+        $sql = "SELECT surveys.id as survey_id, dimension.name as dimension_name, dimension.id as dimension_id, questions.* FROM surveys, dimension, questions WHERE dimension.id = questions.dimension AND dimension.id IN(".$dim.") AND surveys.id = $id;";
+        /*$sql = "SELECT dimension.name as dimension_name, dimension.id as dimension_id, questions.* FROM dimension, questions WHERE dimension.id = questions.dimension AND dimension.id IN(".$dim.") questions.dimension IN(".$dim.");";*/
         $query = $this->con->prepare( $sql );
         $query->execute();
         $results = $query->fetchAll(PDO::FETCH_ASSOC);
