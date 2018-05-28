@@ -211,12 +211,15 @@ class RestFullAPI extends API{
             $aResult = false;
             $aRequest = isset($_POST['questions']) ? $_POST['questions'] : [];
             foreach ($aRequest as $rq){
-                $rq = str_replace("{", "", $rq);
-                $rq = str_replace("}", "", $rq);
-                $arData = explode("=", $rq);
-                $surveyId = isset($arData[1]) ? $arData[1] : null;
-                $qId = isset($arData[3]) ? $arData[3] : null;
-                $name = isset($arData[2]) ? $arData[2] : "";
+                $data = str_replace("{", "", $rq);
+                $data = str_replace("}", "", $data);
+                $data = str_replace("surveyId=", "", $data);
+                $data = str_replace(", name=", ":", $data);
+                $data = str_replace(", id=", ":", $data);
+                $arData = explode(":", $data);
+                $surveyId = isset($arData[0]) ? $arData[0] : null;
+                $qId = isset($arData[2]) ? $arData[2] : null;
+                $name = isset($arData[1]) ? $arData[1] : "";
                 $sql = "INSERT INTO survey_questions (survey_id, question_id, name) VALUES ($surveyId, $qId, '$name');";
                /* $stmt = $this->con->prepare( $sql);
                 $bResult = $stmt->execute();
