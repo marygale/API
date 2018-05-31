@@ -209,7 +209,8 @@ class RestFullAPI extends API{
     }
 
     protected function updateSurveyStatus(){
-        if($this->method('POST')){
+        return 'updateSurveyStatus';
+        /*if($this->method('POST')){
             $id = isset($_POST["survey_id"]) ? $_POST["survey_id"] : "";
             $sql = "Select status FROM surveys WHERE id = $id";
             $query = $this->con->prepare( $sql );
@@ -225,7 +226,7 @@ class RestFullAPI extends API{
         }else{
             $m = new MessageRestFull(array(), MessageRestFull::TYPE_ERROR, 'Only accepts POST request', 'Only accepts POST request');
             return $m->toArray();
-        }
+        }*/
     }
 
     protected function postSurveyQuestions(){
