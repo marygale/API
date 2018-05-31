@@ -2,6 +2,7 @@
 include_once('../config.php');
 
 require_once '../utils/API.php';
+require_once 'Message.php';
 error_reporting(E_ALL ^ E_STRICT);
 
 
@@ -208,7 +209,6 @@ class RestFullAPI extends API{
     }
 
     protected function updateSurveyStatus(){
-        return var_dump($_POST);
         if($this->method('POST')){
             $id = isset($_POST["survey_id"]) ? $_POST["survey_id"] : "";
             $sql = "Select status FROM surveys WHERE id = $id";
@@ -221,7 +221,10 @@ class RestFullAPI extends API{
             $queryUpdate->fetchAll(PDO::FETCH_ASSOC);
             $getAllQry = $this->con->prepare( "Select * FROM surveys WHERE id = $id" );
             $getAllQry->execute();
-            return $getAllQry->fetchAll(PDO::FETCH_ASSOC);;
+            return $getAllQry->fetchAll(PDO::FETCH_ASSOC);
+        }else{
+            $m = new MessageRestFull(array(), MessageRestFull::TYPE_ERROR, 'Only accepts POST request', 'Only accepts POST request');
+            return $m->toArray();
         }
     }
 
