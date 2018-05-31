@@ -214,12 +214,13 @@ class RestFullAPI extends API{
             $query = $this->con->prepare( $sql );
             $query->execute();
             $status = $query->fetchColumn();
-            $update = ($status == 0) ? "UPDATE surveys set status = 1 WHERE id = $id" : "UPDATE survyes set status = 0 WHERE id = $id";
+            $update = ($status == 0) ? "UPDATE surveys set status = 1 WHERE id = $id" : "UPDATE surveys set status = 0 WHERE id = $id";
             $queryUpdate = $this->con->prepare( $update );
             $queryUpdate->execute();
             $queryUpdate->fetchAll(PDO::FETCH_ASSOC);
-            $results = $query->fetchAll(PDO::FETCH_ASSOC);
-            return $results;
+            /*$getAllQry = $this->con->prepare( "Select status FROM surveys WHERE id = $id" );
+            $getAllQry->execute();*/
+            return $query->fetchAll(PDO::FETCH_ASSOC);;
         }
     }
 
