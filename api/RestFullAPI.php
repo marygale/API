@@ -218,7 +218,7 @@ class RestFullAPI extends API{
             $queryUpdate = $this->con->prepare( $update );
             $queryUpdate->execute();
             $queryUpdate->fetchAll(PDO::FETCH_ASSOC);
-            $getAllQry = $this->con->prepare( "Select status FROM surveys WHERE id = $id" );
+            $getAllQry = $this->con->prepare( "Select * FROM surveys WHERE id = $id" );
             $getAllQry->execute();
             return $getAllQry->fetchAll(PDO::FETCH_ASSOC);;
         }
