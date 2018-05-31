@@ -1,4 +1,13 @@
 /*Added*/
+CREATE TABLE survey_answers (
+  id SERIAL PRIMARY KEY,
+  name varchar(255) NOT NULL,
+  question_id int NOT NULL,
+  score int NOT NULL,
+  is_deleted int NOT NULL DEFAULT '0',
+  created date NOT NULL,
+  modified date NOT NULL
+);
 
 CREATE TABLE survey_questions (
   id SERIAL PRIMARY KEY,
@@ -115,6 +124,7 @@ CREATE TABLE survey_answers (
   question_id integer NOT NULL,
   question_option_id integer NOT NULL,
   question_answer varchar(5000) NOT NULL,
+  question_value integer NOT NULL,
   created date NOT NULL,
   modified date NOT NULL,
   is_deleted INTEGER  NOT NULL DEFAULT '0'
@@ -212,7 +222,7 @@ CREATE TABLE groups (
 
 
 /** still to add **/
-CREATE TABLE `questions_options` (
+CREATE TABLE questions_options (
   `id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
