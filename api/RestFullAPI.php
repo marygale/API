@@ -198,7 +198,8 @@ class RestFullAPI extends API{
 
     protected function getSurveyById(){
         if($this->method('GET')){
-            $sql = "Select * FROM surveys WHERE ";
+            $id = isset($_GET["survey_id"]) ? htmlentities($_GET["survey_id"]) : "";
+            $sql = "Select * FROM surveys WHERE survey_id = $id";
             $query = $this->con->prepare( $sql );
             $query->execute();
             $results = $query->fetchAll(PDO::FETCH_ASSOC);
