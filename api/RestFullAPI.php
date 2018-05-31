@@ -207,6 +207,21 @@ class RestFullAPI extends API{
         }
     }
 
+    protected function updateSurveyStatus(){
+        if($this->method('POST')){
+            $id = isset($_POST["survey_id"]) ? $_POST["survey_id"] : "";
+            $sql = "Select status FROM surveys WHERE id = $id";
+            $query = $this->con->prepare( $sql );
+            $query->execute();
+            $status = $query->fetchColumn();
+            $update = ($status == 0) ? "UPDATE surveys set status = 1 WHERE id = $id" : "UPDATE survyes set status = 0 WHERE id = $id";
+            $queryUpdate = $this->con->prepare( $update );
+            $queryUpdate->execute();
+            $results = $queryUpdate->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        }
+    }
+
     protected function postSurveyQuestions(){
         if($this->method('POST')){
             $bResult = false;
