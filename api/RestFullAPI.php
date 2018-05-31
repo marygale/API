@@ -208,6 +208,7 @@ class RestFullAPI extends API{
     }
 
     protected function updateSurveyStatus(){
+        return var_dump($_POST);
         if($this->method('POST')){
             $id = isset($_POST["survey_id"]) ? $_POST["survey_id"] : "";
             $sql = "Select status FROM surveys WHERE id = $id";
