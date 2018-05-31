@@ -209,10 +209,24 @@ class RestFullAPI extends API{
 
     protected function postSurveyQuestions(){
         if($this->method('POST')){
-            $survey_id = isset($_POST['survey_id']) ? $_POST['survey_id'] : '' ;
-            $name = isset($_POST['name']) ? $_POST['name'] : '';
-
-        }
+            $bResult = false;
+            $aRequest = isset($_POST['questions']) ? $_POST['questions'] : [];
+            foreach ($aRequest as $rq){
+                $data = str_replace("{", "", $rq);
+                $data = str_replace("}", "", $data);
+                $data = str_replace("surveyId=", "", $data);
+                $data = str_replace(", name=", ":", $data);
+                $data = str_replace(", id=", ":", $data);
+                $arData = explode(":", $data);
+                $surveyId = isset($arData[0]) ? $arData[0] : null;
+                $qId = isset($arData[2]) ? $arData[2] : null;
+                $name = isset($arData[1]) ? $arData[1] : "";
+                $sql = "INSERT INTO survey_questions (survey_id, question_id, name) VALUES ($surveyId, $qId, '$name');";
+                $stmt = $this->con->prepare( $sql);
+                $bResult = $stmt->execute();
+            }
+            return $bResult;
+       }
     }
 
     protected function postLogin(){
