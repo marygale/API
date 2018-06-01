@@ -198,8 +198,8 @@ class RestFullAPI extends API{
     }
 
     protected function getSurveyById(){
-        if($this->method('GET')){ return var_dump($_GET);
-            $id = isset($_GET["survey_id"]) ? $_GET["survey_id"] : "";
+        if($this->method('POST')){
+            $id = isset($_POST["survey_id"]) ? $_POST["survey_id"] : "";
             $sql = "Select * FROM surveys WHERE id = $id";
             $query = $this->con->prepare( $sql );
             $query->execute();
