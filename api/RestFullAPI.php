@@ -210,6 +210,19 @@ class RestFullAPI extends API{
             return $m->toArray();
         }
     }
+    protected function getSurveyGroup(){
+        if($this->method('POST')){
+            $id = isset($_POST["survey_id"]) ? $_POST["survey_id"] : "";
+            $sql = "Select * FROM survey_groups WHERE survey_id = $id";
+            $query = $this->con->prepare( $sql );
+            $query->execute();
+            $results = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        }else{
+            $m = new MessageRestFull(array(), MessageRestFull::TYPE_ERROR, 'Only accepts POST request', 'Only accepts POST request');
+            return $m->toArray();
+        }
+    }
 
     protected function updateSurveyStatus(){
         if($this->method('POST')){
