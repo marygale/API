@@ -52,13 +52,15 @@ class RestFullAPI extends API{
             $email = isset($_POST['email_address']) ? $_POST['email_address'] : "";
             $address = isset($_POST['address']) ? $_POST['address'] : "";
             $password = isset($_POST['password']) ? md5(htmlentities($_POST['password'])) : "";
-            $sql = "INSERT into users (first_name,last_name,address,email_address, password) VALUES (:Sfname, :Slname, :Saddress, :Semail, :Spass)";
+            $role = isset($_POST['role_id']) ? md5(htmlentities($_POST['role_id'])) : "";
+            $sql = "INSERT into users (first_name,last_name,address,email_address, password, role_id) VALUES (:Sfname, :Slname, :Saddress, :Semail, :Spass, :Irole)";
             $stmt = $this->con->prepare( $sql );
             $stmt->bindParam(':Sfname', $fname, PDO::PARAM_STR);
             $stmt->bindParam(':Slname', $lname, PDO::PARAM_STR);
             $stmt->bindParam(':Saddress', $address, PDO::PARAM_STR);
             $stmt->bindParam(':Semail', $email, PDO::PARAM_STR);
             $stmt->bindParam(':Spass', $password, PDO::PARAM_STR);
+            $stmt->bindParam(':Irole', $role, PDO::PARAM_INT);
             $bSave = $stmt->execute() > 0 ? TRUE : FALSE;
             if($bSave){
                 $aResult['status'] = 'ok';
