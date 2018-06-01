@@ -198,7 +198,7 @@ class RestFullAPI extends API{
     }
 
     protected function getSurveyById(){
-        if($this->method('POST')){
+        if($this->method('GET')){
             $id = isset($_POST["survey_id"]) ? $_POST["survey_id"] : "";
             $sql = "Select * FROM surveys WHERE id = $id";
             $query = $this->con->prepare( $sql );
@@ -298,3 +298,4 @@ try {
 
 
 
+///https://www.javacodegeeks.com/2013/10/android-json-tutorial-create-and-parse-json-data.html
