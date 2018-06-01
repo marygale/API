@@ -205,6 +205,9 @@ class RestFullAPI extends API{
             $query->execute();
             $results = $query->fetchAll(PDO::FETCH_ASSOC);
             return $results;
+        }else{
+            $m = new MessageRestFull(array(), MessageRestFull::TYPE_ERROR, 'Only accepts POST request', 'Only accepts POST request');
+            return $m->toArray();
         }
     }
 
