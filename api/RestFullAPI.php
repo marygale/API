@@ -52,7 +52,7 @@ class RestFullAPI extends API{
             $email = isset($_POST['email_address']) ? $_POST['email_address'] : "";
             $address = isset($_POST['address']) ? $_POST['address'] : "";
             $password = isset($_POST['password']) ? md5(htmlentities($_POST['password'])) : "";
-            $role = isset($_POST['role_id']) ? md5(htmlentities($_POST['role_id'])) : "";
+            $role = 2;
             $sql = "INSERT into users (first_name,last_name,address,email_address, password, role_id) VALUES (:Sfname, :Slname, :Saddress, :Semail, :Spass, :Irole)";
             $stmt = $this->con->prepare( $sql );
             $stmt->bindParam(':Sfname', $fname, PDO::PARAM_STR);
