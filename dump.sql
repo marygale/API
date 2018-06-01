@@ -121,6 +121,7 @@ CREATE TABLE surveys (
 CREATE TABLE survey_answers (
   id serial PRIMARY KEY,
   survey_result_id integer NOT NULL,
+  survey_group_id integer NOT NULL,
   question_id integer NOT NULL,
   question_option_id integer NOT NULL,
   question_answer varchar(5000) NOT NULL,
